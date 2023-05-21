@@ -8,16 +8,49 @@ The more you build, the less you code. Annika delivers a flexible coding experie
 
 Hands-on. Give Annika a try...
 
+## Prerequisites
+
+-   PHP '>8.0'
+-   MongoDB
+-   composer
+
 ## Initiation
 
 To learn Annika, our [online documentation](https://annika.anne.media) is the best place to go.
 
+To see a demo of this repository, visit [https://annika-demo.anne.media](https://annika-demo.anne.media).
+
 -   [Download the latest release](https://github.com/annemedia/annika/releases)
--   Extract the zip file
--   See the `index.html` file. We preconfigured it to load the included CSS libraries, scripts, and default app files for your convenience. Adapt it to suit your needs.
--   See the `js/app.js` and `css/app.css` files. You may start building your first Annika app here.
--   Familiarize yourself with the `css/annika.css` library. Note that the purpose of our CSS library is to serve as an editable template. It is not intended to provide an endless choice of classes.
--   See `annika-resources.js` resource file. The file is stripped of most of the variables and functions' content intended to provide a quick copy & paste reference and concise overview of a variety of Subroutine configurations, function abstracts, and other `js/annika/annika.js` library functions.
+-   Extract the zip file and take note of the following folders and files in the main directory.
+
+LARAVEL BACK END
+
+```
+.env.example
+resources/views/annika.blade.php
+routes/web.php
+app/Models/Identity.php
+app/Http/Controllers/RegisterController.php
+app/Http/Controllers/UserController.php
+
+```
+
+ANNIKA FRONT END
+
+```
+public/js, css, img, fonts
+
+```
+
+-   To begin, first, create a copy of the .env.example file and rename it to .env and configure your MONGO_DB_CONNECTION variables.
+-   In your terminal/command prompt run:
+
+```
+composer install
+php artisan key:generate
+```
+-   Familiarize yourself with the `css/annika.css` library. Note that the purpose of our CSS library is to serve as an editable template rather than an extensive selection of CSS classes.
+-   See `public/js/app.js` SPA demo file, which can also serve as a template you can use.
 
 ## Dependencies
 
