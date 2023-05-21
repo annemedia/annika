@@ -29,8 +29,8 @@ ann.docs.annikainfo = async function annikainfo() {
     "public/js, css, img, fonts<br><br>" +
     "<span>Please keep in mind that the public/css/annika.css library is meant to be used as an editable template, rather than an extensive selection of CSS classes. Our SPA demo provided in the file public/js/app.js can also serve as a template you can use.</span>"
     let begin = "To begin, first, create a copy of the .env.example file and rename it to .env and configure your MONGO_DB_CONNECTION variables.<br><br>In your terminal/command prompt run:"
-    let beginpre = "php artisan key:generate<br>" +
-    "composer install"
+    let beginpre = "composer install<br>" +
+    "php artisan key:generate"
     let ljsi = "Now all is set, you may access Annika's SPA demo in your web browser.<br><br>In the HTML body (see resources/views/annika.blade.php), see that we preconfigured Annika's asynchronous ScriptLoader to load third-party dependencies. You may use the ScriptLoader to preload or postload additional scripts."
     let preljsi = "&lt;script&gt;" +
     "<br>&nbsp;&nbsp;&nbsp;let scripts = ['myscript1.js','https://acdn.com/ascript.js', 'myscript2.js']" +
