@@ -265,12 +265,6 @@ ann.cl.auth.handleAuth(supresswarning = false)
 ```
 To learn how to use the API functions, visit our [online documentation](https://annika.anne.media).
 
-## Development Resources
-
-You will NOT need node.js, Annika is client end JavaScript, and works best with PHP for any backend requirements via fetch API.
-
-You'll see we included our [annika.anne.media](https://annika.anne.media) SPA in the `app-resources/annika.anne.media` folder. You can use the files in reference, and adapt any components to suit your needs. When you write a Subroutine, develop a component, widget or module in Annika, you can share it with other developers by submitting a pull request from your Annika's fork into the app-resources/yourdomain.com folder. If and when your project goes live, we will link your website at Anne Media directory web page, referencing all known websites built on Annika.
-
 ## Collaboration
 
 We are Anne Media - a non-corporate, self-established collective, a rendezvous of loosely coupled professionals who aim to lay the foundation of a new World Wide Web and deploy solutions that enable a world without corporations, borders, or boundaries, a Semantic Web owned by you. In collaboration with Anne Network, we build competitive global solutions and strive to deliver competitive products and services that will disrupt the existing Big Data market.
@@ -279,7 +273,7 @@ The Big Data market is monopolized almost exclusively by international corporati
 
 In order to counteract the economic imbalance, with Annika and ANNE protocols, we have the right tools to build a global network where individuals own the content they post on social media or enter into a search engine, where quality data grow in value, empowering the masses to earn a regular profit from everyday online activities. Opportunities arise in a collaborative, permissionless environment where everyone can join in building one database, share data, and use the same data resource, which software builders can query and compete in building interoperable user-end applications. The collective nature of the ecosystem allows cross-app content compatibility, empowering the individual to carry it across the net.
 
-Our GitHub repository is a mirror of our private subversion repository and we only use GitHub for stable public releases. Annika is not a typical open-source project. We offer equity/royalty-based partnership opportunities, invite you to learn more about our mission at [annika.anne.media](https://annika.anne.media), and consider joining us in collaboration laying the foundation of Semantic Web.
+Our GitHub repository is a mirror of our private subversion repository and we only use GitHub for stable public releases. Annika is not a typical open-source project. We offer equity/royalty-based partnership opportunities, invite you to learn more about our mission at [anne.media](https://anne.media), and consider joining us in collaboration laying the foundation of Semantic Web.
 
 ## Collaborative Public License
 
@@ -332,7 +326,6 @@ If you do not want to take part in Anne Media projects, you may use Annika as Af
 ```
 <a href='https://annika.anne.media' target='_blank'><img src='https://annika.anne.media/img/annikaminibanner.png'/></a>
 ```
-See our Offer at [annika.anne.media](https://anne.media), become Anne Media Patron and help us to create a better world.
 
 ## Support our development
 
