@@ -6,7 +6,6 @@ ann.cl.reg.regset = {
     country: '',
     pic: '',
 }
-// KwtkPNQZcYEu2xdW173xE5xtgmJmohmsTfqpEoj8QiaJE2xPb7yy
 ann.cl.reg.makeReg = async function makeReg(callback1, callback2) {
 
     let regwrap = document.querySelector('.reg-wrap');
