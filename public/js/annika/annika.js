@@ -925,6 +925,22 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
     return returnid;
 }
 
+ann.sha256 = async function sha256(message) {
+  // encode as UTF-8
+  const msgBuffer = new TextEncoder().encode(message);                    
+
+  // hash the message
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+  // convert ArrayBuffer to Array
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+  // convert bytes to hex string                  
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashHex;
+}
+
+window.sha256 = ann.sha256
 
 if(ann.get.hasDynResolution) {
   window.addEventListener('resize', function(e){
@@ -1826,7 +1842,7 @@ ann.modal = function modal(title, content, buttoncount = 2, parentel = false, pw
     function pwBlur(id, e) {
     }
 
-    function modalResponse(id, e) {
+    async function modalResponse(id, e) {
         e.preventDefault();
         var modal = document.getElementsByTagName('modal')[0];
         var buttons = modal.querySelectorAll('button');
@@ -1855,12 +1871,13 @@ ann.modal = function modal(title, content, buttoncount = 2, parentel = false, pw
                 return;              
             } else if(pwinput[x].value.trim().length>=min && pwinput[x].value.trim().length<=max) {
                 let value = pwinput[x].value.trim();
+                let valuehash = await ann.sha256(value);
                 if(x == 2) {
-                  pw2 = sha256(value);
+                  pw2 = valuehash;
                 } else if(x == 1) {
-                  pw1 = sha256(value);
+                  pw1 = valuehash;
                 } else if(x == 0) {
-                  localStorage.setItem('pass', sha256(value));
+                  localStorage.setItem('pass', valuehash);
                 }
                 if(pw1 && pw2 && pw1 !== pw2 && x == 2) {
                   var pwvalidation2 = document.getElementsByClassName('pwvalidation2')[0];                  
@@ -1875,7 +1892,8 @@ ann.modal = function modal(title, content, buttoncount = 2, parentel = false, pw
                   ann.get.modal.response = -1;
                   return; 
                 } else if(pw1 && pw2 && pw1 === pw2 && x == 2) {
-                  localStorage.setItem('safekeeping', sha256(pwinput[x].value.trim()));
+                  let pwinp = await ann.sha256(pwinput[x].value.trim())
+                  localStorage.setItem('safekeeping', pwinp);
                 }
                 if(x == 0) {
                    ann.get.modal.response = 1;
@@ -2059,8 +2077,8 @@ ann.getRecoveryCount=function(n){for(var e=0,r=0;r<n.length;r++)e+=n.charCodeAt(
 
 ann.encryptRoutine = async function encryptRoutine(item, pw, servermsg) {
   var encrypteditem, encryptedIK, pub, userid, encrypted_count;
-  var enc_pass = sha256(pw);
-  var hash = sha256(item);
+  var enc_pass = await ann.sha256(pw);
+  var hash = await ann.sha256(item);
   var recovery_count = Math.ceil(ann.getRecoveryCount(hash)/10);
   const encoder = new TextEncoder();
   var encryption_key = encoder.encode(hash);
@@ -2112,7 +2130,7 @@ ann.decryptRoutine = async function decryptRoutine(itemorwif, pw, servermsg, enc
       decrypteditem = item;
       p = testwif;
   } else {
-      let pass = sha256(pw);
+      let pass = await ann.sha256(pw);
       let encryption_key = encoder.encode(pass);
       if (encryption_key.length > big) { encryption_key = encryption_key.slice(0, big) }
       decrypteditem = ann.decrypt_it(item, encryption_key, 100);
@@ -2124,7 +2142,7 @@ ann.decryptRoutine = async function decryptRoutine(itemorwif, pw, servermsg, enc
   if(servermsg && encrypted_count) {
     if(decrypteditem && decrypteditem.length === 52) { 
       if(p) {
-        let hash = sha256(decrypteditem);
+        let hash = await ann.sha256(decrypteditem);
         let encryption_key2 = encoder.encode(hash);
         if (encryption_key2.length > big) { encryption_key2 = encryption_key2.slice(0, big) }
         let recovery_count = parseInt(ann.decrypt_it(encrypted_count, encryption_key2, 100));

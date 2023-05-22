@@ -338,7 +338,7 @@ ann.cl.reg.register = async function register(dataset, parent, wantsSafeKeeping 
         localStorage.setItem('enwif',encrypted.item);
         let ik = encrypted.ik;
         let count = encrypted.count;
-        let msg = sha256(fetchresponse[0]);
+        let msg = await ann.sha256(fetchresponse[0]);
         let updateset = { pub: ann.cl.reg.regset.pub, ik: ik, count: count, msg: msg, safe: safe }
         console.log('updateset :', updateset);
         await ann.fetch('updateID', updateset, 'POST');
@@ -416,8 +416,9 @@ ann.cl.auth.authModule = async function authModule() {
                                 localStorage.removeItem('enwif');
                             }
                             //having fun :: start
-                            e.path[0].value = sha256(e.path[0].value)
-                            e.path[0].setAttribute('value',sha256(e.path[0].value))
+                            let v = await ann.sha256(e.path[0].value)
+                            e.path[0].value = await ann.sha256(e.path[0].value)
+                            e.path[0].setAttribute('value',v)
                             //having fun :: end
                             let autharea = document.querySelector('autharea');
                             if(autharea && autharea.parentElement) {autharea.parentElement.remove()}

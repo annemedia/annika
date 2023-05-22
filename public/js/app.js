@@ -129,7 +129,9 @@ async function page3() {
 
 ann.cl.auth.callback = async function patronarea(msg, ik, wifkey, count) {
     
-    var identity = { pub: msg.pub, ik: sha256(ik) };
+    let ikhash = await ann.sha256(ik)
+    console.log('ikhash :', ikhash);
+    var identity = { pub: msg.pub, ik: ikhash };
     var areadata = await ann.fetch('privateArea',identity,'POST');
 
     let header = areadata.header;

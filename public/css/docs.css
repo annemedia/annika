@@ -1,7 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace&display=swap');
-
-  @font-face{
+ @font-face{
     font-family: Inconsolata;
     font-display: swap;
     src: local('Inconsolata'),url('../fonts/Inconsolata-Regular.woff2') format('woff2');
@@ -18,30 +15,10 @@
   }
 
   @font-face{
-    font-family: Metropolis;
-    font-display: swap;
-    src: local('Metropolis'),url('../fonts/Metropolis-Regular.woff2') format('woff2');
-  }
-  @font-face{
-    font-family: 'Digital 7';
-    src: url('../fonts/Digital-7.woff2') format('woff2');
-  }
-  @font-face{
-    font-family: 'Digital 7 Mono';
-    src: url('../fonts/Digital-7Mono.woff2') format('woff2');
-  }
-  @font-face{
     font-family: 'SGU';
     src: url('../fonts/StargateUniverse.woff2') format('woff2');
   }
-  @font-face{
-    font-family: 'Lato Medium';
-    font-display: swap;
-    src: url('../fonts/Lato-Medium.woff2') format('woff2');
-  }
-  .AncestralRecall {
-    font-family: AncestralRecall;
-  }
+
   .AlphaProta {
     font-family: 'Alpha Prota';
   }
@@ -174,9 +151,6 @@ footer div {
     8px 8px 25px rgba(0, 0, 0, 0.15);
   border-radius: 50%;
   overflow: hidden;
-}
-.bruno {
-  font-family: 'Bruno Ace', cursive;
 }
 
 .loader span:before {
@@ -490,19 +464,7 @@ card:nth-child(3)::before {
 .cyber-bg {
   background: rgb(20 20 20 / 85%) var(--cyber-bg2) repeat;
 }
-.tierwrap p {
-  width:94%;
-  text-align:center;
-  margin:20px;
-  font-family: 'Metropolis';
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-shadow: rgba(255, 255, 255, 0.7) 0px 0px 1px;
-  line-height: 1rem;
 
-}
 
 .card span {
   margin: 10px 0;
@@ -562,9 +524,6 @@ tiers div {
 
 .Inconsolata{
   font-family: Inconsolata Arial, Helvetica, sans-serif !important;
-}
-.Metropolis{
-  font-family: Metropolis Arial, Helvetica, sans-serif !important;
 }
 
 .typar, .tyhead {
@@ -1197,34 +1156,6 @@ terms div {
 terms modalcall {
   font-weight: unset;
   font-family: unset;
-}
-
-terms h1 {
-  padding: 0;
-  margin-top: 20px;
-  font-size: 1.8rem;
-  font-family: 'Metropolis';
-}
-
-
-terms h2 {
-  font-size: 1.5rem;
-  font-family: 'Metropolis';
-  margin-top: 20px;
-}
-
-terms h3 {
-  font-size: 1.3rem;
-  margin-top: 20px;
-  font-family: 'Metropolis';
-}
-terms h4 {
-  text-shadow: unset;
-  text-align: left;
-  font-size: 1rem;
-  margin: 0;
-  margin-top: 20px;
-  font-family: 'Metropolis';
 }
 
 terms p {

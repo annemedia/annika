@@ -52,7 +52,6 @@ Copyright (c) 2015-2018 Richard Moore <me@ricmoo.com> (aesjs.js)
 Copyright (c) 2015-present, Jon Schlinkert (bitcoin.js)
 Copyright (c) Feross Aboukhadijeh <feross@feross.org> <http://feross.org> (bitcoin.js)
 Copyright (c) 2015 Foliotek Inc (croppie.js)
-Copyright (c) 2014-2017 Chen, Yi-Cyuan  <emn178@gmail.com> (sha256.js)
 Copyright (c) 2009-2013 Jeff Mott (crypto-js)
 Copyright (c) 2013-2016 Evan Vosberg (crypto-js)
  

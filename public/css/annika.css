@@ -54,6 +54,16 @@
 
     }
 
+    @font-face{
+      font-family: 'Lato Medium';
+      font-display: swap;
+      src: url('../fonts/Lato-Medium.woff2') format('woff2');
+    }
+    @font-face{
+      font-family: 'Digital 7';
+      src: url('../fonts/Digital-7.woff2') format('woff2');
+    }
+
     .bg-1 {
       background-color: var(--primary)
     }
@@ -328,7 +338,7 @@
   hoverwrap, modalcall {
     position: relative;
     font-weight: bold;
-    font-family: 'Metropolis';
+    font-family: 'Lato Medium';
   }
   modalcall {
     cursor: pointer;
@@ -1037,7 +1047,7 @@
     color: white;
     font-size: 0.8rem;
     font-weight: 500;
-    font-family: Metropolis;
+    font-family: 'Lato Medium';
     align-items: center;
     justify-content: center;
   } 
