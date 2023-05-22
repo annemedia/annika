@@ -353,7 +353,7 @@ ann.cl.auth.authModule = async function authModule() {
     return ann.requireObject(ann.cl.auth.callback, 10000).then(function(resolve){
       
       ann.keep.isChecked = false;
-      ann.cl.onload.patronAuth = async function patronAuth() {
+      ann.cl.onload.userAuth = async function userAuth() {
           let enwif = localStorage.getItem('enwif');
           if(enwif && enwif.length > 52) {
               let auth = document.querySelector('auth')
@@ -366,9 +366,9 @@ ann.cl.auth.authModule = async function authModule() {
           }
       }
     
-      return ann.Subroutine('authuser+ann.cl.onload.patronAuth',
+      return ann.Subroutine('authuser+ann.cl.onload.userAuth',
           ['div_y','auth_x', 'div_y','input_text_@blur','$2_div_y','input_checkbox_@click', '$2_span', '$2_span'],
-          [null, null,null,'label_Patron Key',null,'label_KEEP','&#10227;','&#x2717;' ],
+          [null, null,null,'Data Key',null,'label_KEEP','&#10227;','&#x2717;' ],
           ['dyn-w','dyn-w slideUp',null,null,'w-25px p-5 o-v',null,'reload','authclose'],
           [null,null,null, authOnEnterOrBlur,null, onAuthKeepChecked, onAuthReload, onAuthClose],
           [null,null,null,resolve,null, null, null,null]

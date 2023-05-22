@@ -10,6 +10,8 @@ ann.get.menuCallback = async function menuCallback(id, e) {
 
 async function app() {
 
+    await ann.evalObject('ann.docs.annikainfo')
+
     let logosrc = 'img/annika.svg';
     let brandp1 = "ANNIKA"
     let brandp2 = "COMMAND INTERFACE"
@@ -67,8 +69,6 @@ async function page1() {
     let c = ann.declareVars(7);
     c.v4 = 'bg-1 bold', c.v6=c.v7='annikabutton mt-20 pointer',c.v7=c.v7+' ml-10'
     let css = ann.json2array(c);
-
-    await ann.evalObject('ann.docs.annikainfo')
     
     let cl = ann.declareVars(7);
     cl.v6 = register, cl.v7 = ann.docs.annikainfo
@@ -127,7 +127,7 @@ async function page3() {
     );
 }
 
-ann.cl.auth.callback = async function patronarea(msg, ik, wifkey, count) {
+ann.cl.auth.callback = async function userarea(msg, ik, wifkey, count) {
     
     let ikhash = await ann.sha256(ik)
     console.log('ikhash :', ikhash);
