@@ -54,7 +54,7 @@ php artisan key:generate
 
 ## Dependencies
 
-Some of Annika's functions depend on third-party libraries. Annika's registration and authentication modules `js/annika/annika-auth.js` and `ann.encryptRoutine` and `ann.decryptRoutine` functions included in the `js/annika/annika.js` library depend on `js/libs/bitcoin.js`, `js/libs/aesjs.js`, and `js/libs/sha256.js`, and the `ann.createCroppie` function depend on `js/libs/croppie.js`.
+Some of Annika's functions depend on third-party libraries. Annika's registration and authentication modules `js/annika/annika-auth.js` and `ann.encryptRoutine` and `ann.decryptRoutine` functions included in the `js/annika/annika.js` library depend on `js/libs/bitcoin.js`, and `js/libs/aesjs.js`, and the `ann.createCroppie` function depend on `js/libs/croppie.js`.
 
 ## Features
 ### Asynchronous Script Loader
