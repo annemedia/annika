@@ -273,7 +273,7 @@ The Big Data market is monopolized almost exclusively by international corporati
 
 In order to counteract the economic imbalance, with Annika and ANNE protocols, we have the right tools to build a global network where individuals own the content they post on social media or enter into a search engine, where quality data grow in value, empowering the masses to earn a regular profit from everyday online activities. Opportunities arise in a collaborative, permissionless environment where everyone can join in building one database, share data, and use the same data resource, which software builders can query and compete in building interoperable user-end applications. The collective nature of the ecosystem allows cross-app content compatibility, empowering the individual to carry it across the net.
 
-Our GitHub repository is a mirror of our private subversion repository and we only use GitHub for stable public releases. Annika is not a typical open-source project. We offer equity/royalty-based partnership opportunities, invite you to learn more about our mission at [anne.media](https://anne.media), and consider joining us in collaboration laying the foundation of Semantic Web.
+Annika is not a typical open-source project. We offer equity/royalty-based partnership opportunities, invite you to learn more about our mission at [anne.media](https://anne.media), and consider joining us in collaboration laying the foundation of Semantic Web.
 
 ## Collaborative Public License
 
