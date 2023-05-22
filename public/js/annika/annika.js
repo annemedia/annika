@@ -1617,6 +1617,8 @@ ann.collapsible = async function collapsible(openfirst = ann.get.collapsiblefirs
                       parentcc.style.maxHeight = (ann.returnNumber(parentcc.style.maxHeight) + ann.returnNumber(content.style.maxHeight)) + "px";                
                     }
                   }
+                  var topPos = this.offsetTop;
+                  this.closest('.scrollbar').scrollTop = topPos;
           
               });
             collapsibles[i].processed = true;

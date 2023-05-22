@@ -8,7 +8,7 @@
         <title>Annika - Demo</title>
         
         <link rel="stylesheet" href="css/annika-min.css" type="text/css" />
-        <script id='annika.js' src="js/annika/annika-min.js"></script>
+        <script id='annika.js' src="js/annika/annika.js"></script>
         <link rel="stylesheet" href="css/croppie.css" type="text/css" />
         <link rel="stylesheet" href="css/docs-min.css" type="text/css" />
         <link rel="stylesheet" href="css/app.css" type="text/css" />
