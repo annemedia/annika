@@ -49,7 +49,7 @@ public/js, css, img, fonts
 composer install
 php artisan key:generate
 ```
--   Familiarize yourself with the `css/annika.css` library. Note that the purpose of our CSS library is to serve as an editable template rather than an extensive selection of CSS classes.
+-   Familiarize yourself with the `public/css/annika.css` library. Note that the purpose of our CSS library is to serve as an editable template rather than an extensive selection of CSS classes.
 -   See `public/js/app.js` SPA demo file, which can also serve as a template you can use.
 
 ## Dependencies
