@@ -59,7 +59,7 @@ Some of Annika's functions depend on third-party libraries. Annika's registratio
 ## Features
 ### Asynchronous Script Loader
 
-In the `index.html`, you will find Annika's `ScriptLoader`, which is pre-configured to load the dependencies by default. If you don't need some of the scripts, you may exclude them. Should you need to load more scripts, simply add them to the `scripts` array variable. Use the ScriptLoader for preloading scripts or post-loading scripts on user interaction. You will particularly appreciate this solution for its performance and simplicity if you ever worked with RequireJS.
+In the `resources/views/annika.blade.php` file, you will find Annika's `ScriptLoader`, which is pre-configured to load the dependencies by default. If you don't need some of the scripts, you may exclude them. Should you need to load more scripts, simply add them to the `scripts` array variable. Use the ScriptLoader for preloading scripts or post-loading scripts on user interaction. You will particularly appreciate this solution for its performance and simplicity if you ever worked with RequireJS.
 
 ```js
 let scripts = ['annika/annika-auth-min.js', 'libs/croppie.js', 'libs/aesjs.js', 'libs/sha256.js', 'libs/bitcoin.js'];
