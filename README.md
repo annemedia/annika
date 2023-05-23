@@ -326,6 +326,7 @@ If you do not want to take part in Anne Media projects, you may use Annika as Af
 ```
 <a href='https://annika.anne.media' target='_blank'><img src='https://annika.anne.media/img/annikaminibanner.png'/></a>
 ```
+ ![alt text](https://annika.anne.media/img/annikaminibanner.png)
 
 ## Support our development
 
