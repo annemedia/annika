@@ -49,6 +49,15 @@ public/js, css, img, fonts
 composer install
 php artisan key:generate
 ```
+
+- To see an app in the web browser, in the terminal run.
+
+```
+php artisan serve
+```
+
+You can now access Annika's demo app at `http://127.0.0.1:8000`
+
 -   Familiarize yourself with the `public/css/annika.css` library. Note that the purpose of our CSS library is to serve as an editable template rather than an extensive selection of CSS classes.
 -   See `public/js/app.js` SPA demo file, which can also serve as a template you can use.
 
