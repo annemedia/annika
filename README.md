@@ -62,7 +62,7 @@ composer install
 php artisan key:generate
 ```
 
-- To see an app in the web browser, in the terminal run.
+- To see an app in the web browser, in the terminal run...
 
 ```
 php artisan serve
