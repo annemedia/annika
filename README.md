@@ -11,8 +11,20 @@ Hands-on. Give Annika a try...
 ## Prerequisites
 
 -   PHP '>8.0'
+```
+sudo apt install openssl php php-cli php-common php-fpm php-gd php-bcmath php-curl php-xml php-json php-mbstring php-tokenizer php-xml php-zip php-mysql php-mongodb
+```
 -   MongoDB
+
+follow the instructions at [https://www.mongodb.com/docs/manual/administration/install-community](https://www.mongodb.com/docs/manual/administration/install-community) 
+
 -   composer
+```
+  sudo apt install curl git unzip
+  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" 
+  php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  chmod +x /usr/local/bin/composer
+```
 
 ## Initiation
 
