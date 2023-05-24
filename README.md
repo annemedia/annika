@@ -44,14 +44,12 @@ routes/web.php
 app/Models/Identity.php
 app/Http/Controllers/RegisterController.php
 app/Http/Controllers/UserController.php
-
 ```
 
 ANNIKA FRONT END
 
 ```
 public/js, css, img, fonts
-
 ```
 
 -   To begin, first, create a copy of the .env.example file and rename it to .env and configure your MONGO_DB_CONNECTION variables.
