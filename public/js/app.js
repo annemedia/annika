@@ -30,11 +30,14 @@ async function app() {
 
     ann.Subroutine('demo',
         // Command Array
+        //   1      2          3        4       5      6        7           8          9           10      11
         ['div_y', 'div_y', 'header_x','img','$3_div', 'h1',  '$5_h2', '$3_menu_y', '$2_div_y', 'info_y', addfooter],
         // HTML Content Array
-        [null,null,null,logosrc,null,brandp1,brandp2,menu,null, maininfo,null],
+        [null,null,null,logosrc,null,brandp1,brandp2,menu,null,maininfo,null],
         // CSS Array
-        [...css],[...clb],
+        [...css],
+        // Callback Array
+        [...clb]
     );
 
     function logoclick(){
@@ -157,4 +160,6 @@ ann.cl.auth.callback = async function userarea(msg, ik, wifkey, count) {
     );
 
 }
+
+
 
