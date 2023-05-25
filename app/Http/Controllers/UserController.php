@@ -46,7 +46,8 @@ class UserController extends Controller
             if(hash('sha256',$identity->ik) == $data['ik']) {                    
 
                 $result = array(
-                    'header' => 'Yar Pirate Ipsum Secret Head 4',                    
+                    'salut' => $identity->salut,
+                    'header' => 'Secret Message',                    
                     'demop' => "Yellow Jack Admiral of the Black nipper parrel careen main sheet rutters spanker yard yawl aft swing the lead jack landlubber or just lubber. Privateer driver parley bilge water blow the man down Buccaneer hulk hardtack fire in the hole loaded to the gunwalls boom hogshead hands chase guns six pounders measured fer yer chains execution dock grog blossom boatswain walk the plank topsail broadside come about schooner no prey, no pay grapple fathom lateen sail matey cog cutlass reef mutiny skysail killick black jack ballast flogging dead men tell no tales mizzen spike Davy Jones' Locker starboard rope's end sheet clap of thunder topmast Sail ho furl Jack Ketch gun Spanish Main scourge of the seven seas gally ho barkadeer long clothes rum poop deck sloop. Carouser rope's end warp bounty brigantine spanker red ensign piracy maroon.",
                 );                
                 return response()->json($result);

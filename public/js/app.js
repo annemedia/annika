@@ -137,7 +137,7 @@ ann.cl.auth.callback = async function userarea(msg, ik, wifkey, count) {
     var identity = { pub: msg.pub, ik: ikhash };
     var areadata = await ann.fetch('privateArea',identity,'POST');
 
-    let header = areadata.header;
+    let header = areadata.salut + "'s " + areadata.header;
     let demop =  areadata.demop;
 
     let c = ann.declareVars(4);
