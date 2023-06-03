@@ -805,6 +805,11 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
                 } else if(keyel === 'created_at' || keyel === 'updated_at' || keyel === 'created_dt' || keyel === 'updated_dt') {
                   let date = new Date(data[d][keyel]).toDateString();
                   el.innerHTML = label + date;
+                } else if(keyel.includes('.')){
+                  let partkey = data[d][ann.getPartString(keyel, '.',0)];
+                  if(partkey) {                   
+                    el.innerHTML = label + partkey[ann.getPartString(keyel, '.',1)]                                       
+                  }
                 } else {
                   el.innerHTML = label + data[d][keyel];
                 }
@@ -1558,7 +1563,7 @@ ann.onMenuClick = async function onMenuClick(id, e, callback, opencollapsible = 
       return("");
     }
 }
-ann.swapInfo = swapInfo = function swapInfo(id, elarr, htmlarray) {
+ann.swapInfo = function swapInfo(id, elarr, htmlarray) {
   for (var i = 0; i < elarr.length; i++) {
 
       elarr[i].classList.add('fadeOut');     
@@ -1806,7 +1811,6 @@ ann.modal = function modal(title, content, buttoncount = 2, parentel = false, pw
     var subname;
     var title = title;
     ann.get.modal.modalparent = parentel;
-    console.log('ann.get.modal.modalparent :', ann.get.modal.modalparent);
     ann.get.modal.response = -1;
     if(!parentel) { subname = 'modal' } else { subname = 'modal+ann.get.modal.onLoad' }
     var confirmbuttonclass = 'iambutton';
@@ -1820,7 +1824,6 @@ ann.modal = function modal(title, content, buttoncount = 2, parentel = false, pw
     if(pwmodal === 2) { title = "DATA KEY GUARD"; pwinputclass2 = 'custominput'; message2 = "modalmessage pt-20" }
     ann.get.modal.onLoad = async function onLoad(response) {
         let modal = document.getElementsByTagName('modal')[0];
-        console.log('modal :', modal);
         if(ann.get.modal.modalparent && modal) {
             ann.get.modal.modalparent.append(modal);
         } else {
