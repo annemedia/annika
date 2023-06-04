@@ -351,13 +351,13 @@ If you do not want to take part in Anne Media projects, you may use Annika as Af
 
 In our [Offer](https://anne.media), we put together a range of compelling rewards for participation in Anne Media projects. Alternatively, if this project helps you reduce time to develop and you want to support us with an anonymous donation, you may use one of the below options. Your kindness and backing mean the world to us, and we extend our deepest gratitude in advance.
 
-BCH: qzct28kem0yrcrq8f53zuelk728f77lpfstd5wpgcy
+BCH: qrgsxlg8utlvd0mjl289d2nq79jxr0vwgsf3t94nqu
 
 XMR: 89Nz71j5WmCEeWAQEow3SdXzhwfbybctGJ2TGDKYYCwzYahHTtSTFnN9ij6SZD3j5S3rUnHJpUZSqFTvjGNakXpo8ySqUYw
 
-BTC: 1H7LuEgg3hUKcG8XWmrLRbhuGQmTBiivdZ
+BTC: bc1qke2vwv7hnufcj6rc2yj6p90regsl4gh4pfw3na
 
-ETH: 0x2F2291dc41449f9506B9356c04853E6704D7b955
+ETH: 0x9c7Dc49FACF21F759CfCE624969C3D2c2Ec0985C
 
 ## Social
 
