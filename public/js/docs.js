@@ -385,7 +385,7 @@ ann.docs.annikainfo = async function annikainfo() {
         "<br><br>As long as our Subs produce all DOM objects on page load, all hovertip objects will be given the desired behavior. However, if we were to add a dynamic Sub that does not generate content on page load but on user interaction or add more hovertips within a scope of an ann.cl.onload.customOnloadFunction, to include the additional hovertips objects, we may need to call this function again in our script.</p></div>" +
 
         "<span class='collapsible color-3'>ann.isVisible</span>(elorid)" +
-        "<div class='ccontent mb-10'><p>The function returns true if a DOM object is visible or false if it isn't. The visibility condition is defined by CSS classes 'hide', 'slideUp', 'fadeOut', and CSS property display set to 'none'. If either of these is found against the object, the function will return false. The parameter accepts a DOM object or its ID.</p></div>" +
+        "<div class='ccontent mb-10'><p>The function returns true if a DOM object is visible or false if it isn't. The visibility condition is defined by CSS classes 'hide', 'slide-up', 'fadeOut', and CSS property display set to 'none'. If either of these is found against the object, the function will return false. The parameter accepts a DOM object or its ID.</p></div>" +
 
         "<span class='collapsible color-3'>ann.json2array</span>(json)" +
         "<div class='ccontent mb-10'><p>As the name suggests, the function will convert a JSON object into an array. The parameter accepts a JSON object.</p></div>" +

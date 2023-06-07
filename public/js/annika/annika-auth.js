@@ -369,7 +369,7 @@ ann.cl.auth.authModule = async function authModule() {
       return ann.Subroutine('authuser+ann.cl.onload.userAuth',
           ['div_y','auth_x', 'div_y','input_text_@blur','$2_div_y','input_checkbox_@click', '$2_span', '$2_span'],
           [null, null,null,'label_Data Key',null,'label_KEEP','&#10227;','&#x2717;' ],
-          ['dyn-w','dyn-w slideUp',null,null,'w-25px p-5 o-v',null,'reload','authclose'],
+          ['dyn-w','dyn-w slide-up',null,null,'w-25px p-5 o-v',null,'reload','authclose'],
           [null,null,null, authOnEnterOrBlur,null, onAuthKeepChecked, onAuthReload, onAuthClose],
           [null,null,null,resolve,null, null, null,null]
       ); 

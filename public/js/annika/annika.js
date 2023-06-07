@@ -1,7 +1,7 @@
 // Copyright (c) 2022 Anne Media Patrons | Collaborative Public Licence (https://annika.anne.media/)
 // use ann.cl.onload namespace for Subs onload functions
 
-ann = {}, window.ann = ann, ann.get = {}, ann.cl = {}, ann.cl.auth = {}, ann.cl.reg = {}, ann.docs = {}, ann.cl.onload = {}, ann.cl.onresize = {}, ann.keep = {}, ann.bool = {}, ann.utils = {}, window.ann = ann; ann.get.modal = {};
+ann = {}, window.ann = ann, ann.get = {}, ann.iam = {}, ann.cl = {}, ann.cl.auth = {}, ann.cl.reg = {}, ann.docs = {}, ann.cl.onload = {}, ann.cl.onresize = {}, ann.keep = {}, ann.bool = {}, ann.utils = {}, window.ann = ann; ann.get.modal = {};
 ann.get.hasCollapsible = true;
 ann.get.hasHovertips = true;
 ann.get.hasModaltips = true;
@@ -105,6 +105,8 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
         if(lasthtmls) break;        
     }
 
+
+
     var flextype; //true when _x is found, false if _y is found // undefined if not specified
     var targetparent;
     var depth = -1;
@@ -113,9 +115,10 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
     var elarr = [];
     var priordepth = depth;
     var inputtype;
-
+    var elmultiplier = 1;
     // splits name of the Sub and it's onLoad function (if specified)
     var onLoad = (name.split('+')[1]) ? name.split('+')[1] : false;
+
     var subname = (name.split('+')[0]) ? name.split('+')[0] : name;
     // var docFragment = document.createDocumentFragment();
     // loop through the commands
@@ -126,13 +129,30 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
         targetparent = (commands[i].startsWith('$')) ? parseInt(commands[i].split("_")[0].replace('$', '')) - 1 : i - 1;
         //  hasevent = (commands[i].includes('@')) ? true : false;
         hasevent = (callbacks[i]) ? true : false;
-                        
+
+
+
+        if(commands[i].startsWith('x') && commands[i].includes('_')) {
+          let multitest = ann.returnNumber(commands[i].split("_")[0])
+          elmultiplier = (commands[i].startsWith('x') && !isNaN(multitest)) ? multitest : 1;
+        }
+
         var elemtype = getElementTypeFromCommand(commands, i);
         var noFractals = (!htmls[i] || htmls[i] === null || typeof htmls[i] === 'string' || typeof htmls[i] === 'function' || commands[i].includes('croppie')) ? true : false;
         el = document.createElement(elemtype);
         elarr.push(el)
 
-        if(noFractals) { 
+       
+        if(commands[i].includes('widgets')) {
+          console.log('elarr[targetparent] :', elarr[targetparent]);
+          for (var h in htmls[i]) {           
+            ann.loadWidget(htmls[i][h], elarr[targetparent], remeberonLoad)
+                       
+          }
+          return;
+        }
+
+        if(noFractals && elmultiplier < 2) { 
 
             depth = -1;
             priordepth = depth;
@@ -290,7 +310,8 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
                 }
             }
         } else {
-              // Rube Goldberg fix, find a better way to limiting the execution
+
+          // Rube Goldberg fix, find a better way to limiting the execution
               // x > i ensures the depth count begins using next element in sequence after current commands[i]
               // the depth is a helper variable preventing command execution repetion, passing on correct workload to the makeFractals fc. 
             if(depth === -1 && htmls[i]) {
@@ -317,11 +338,11 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
             }
         }
 
-        if(typeof htmls[i] == 'object' && depth >= 0 && priordepth < 1) { 
+        if((typeof htmls[i] == 'object' && depth >= 0 && priordepth < 1) || elmultiplier > 1) { 
             priordepth = depth;
-            
-            makeFractals(subid, elarr, elemtype, i, commands, htmls, classes, callbacks, params, onLoad, lasthtmls, flextype,targetparent,depth);    
-            depth = -1;        
+            makeFractals(subid, elarr, elemtype, i, commands, htmls, classes, callbacks, params, onLoad, lasthtmls, flextype,targetparent,depth, elmultiplier);
+            elmultiplier = 1;
+            depth = -1;
         }
     }
 
@@ -336,6 +357,7 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
         var elemtype = (commands[i].startsWith('$')) ? commands[i].replace(commands[i].split("_@")[1],'').replace('_x', '').replace('_y','').replace(commands[i].split("_")[0],'').split("_")[0] : commands[i].replace('_x', '').replace('_y', '').replace(commands[i].split("_@")[1],'').replace('_@', '');
         if (elemtype === '') { elemtype = commands[i].replace('_x', '').replace('_y','').replace(commands[i].split("_")[0],'')}
         if (elemtype.startsWith('_', 0)) { elemtype = elemtype.substring(1, elemtype.length)}
+        if (elemtype.startsWith('x', 0) && elemtype.includes('_')) {  elemtype = elemtype.split("_")[1]}
         if (elemtype.includes('-')) { elemtype = elemtype.replace('-','')}
         if (elemtype.includes('^w_')) { elemtype = elemtype.replace('^w_','')}
         if (elemtype.includes('^_')) { elemtype = elemtype.replace('^_','')}
@@ -348,15 +370,27 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
         return elemtype;
     }
 
+
     var remeberonLoad; // remeber so it can be exec'ed only once at after last command is processed
     ann.get.zindexcontrol = 1000;
 
-    async function makeFractals(subid, elarr, elemtype, i, commands, htmls = [], classes = [], callbacks = [], params = [], onLoad, lasthtmls = [], flextype,targetparent,depth) {
-  
+    async function makeFractals(subid, elarr, elemtype, i, commands, htmls = [], classes = [], callbacks = [], params = [], onLoad, lasthtmls = [], flextype,targetparent,depth, elmultiplier) {
+
         var hasFractalParent = (commands[i].includes('^_') || commands[i].includes('#_')) ? true : false;
         var el;
         
         if(onLoad) { remeberonLoad = onLoad}
+
+
+        if(elmultiplier > 1) {
+          for (var e = 0; e < elmultiplier; e++) {
+            el = document.createElement(elemtype);
+           ann.addClasses(el, classes[i]);                
+            elarr[targetparent].append(el)
+          }
+          return;
+        }
+
 
         if(hasFractalParent) {
               
@@ -374,8 +408,7 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
             for(var f = i; f < htmls.length; f++) {
               
               if(typeof htmls[f][0] === 'object' && commands[i].includes('#_')) {
-                jsonPrint(htmls[f],commands, classes[f], callbacks[f], params[f],elarr,f,targetparent,remeberonLoad)
-                
+                jsonPrint(htmls[f],commands, classes[f], callbacks[f], params[f],elarr,f,targetparent,remeberonLoad)                
                 return;
               }
                 isFractalChild = (commands[f].includes('^_')) ? true : false;
@@ -510,8 +543,7 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
         var inputtype, grid, menu, menuul;
         // depth of loop defined by equal length of arrays
         for(var z = 0; z <= depth; z++) {
-            var y = parseInt(i) + parseInt(z);           
-            // Do not use here: targetparent = (commands[y].startsWith('$')) ? parseInt(commands[y].split("_")[0].replace('$', '')) - 1 : y - 1;
+            var y = parseInt(i) + parseInt(z);
             var lastindex =  commands[y].lastIndexOf('@');
             var listenertype = commands[y].substring(lastindex + 1);
             if(lastindex === - 1 && callbacks[y]) { listenertype = 'click'}
@@ -535,11 +567,11 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
                     menuclose.classList.add("hide");
                     menu = document.createElement(elemtype);
                     menu.id = 'menu-' + subid + '-' + y;
-                    menu.classList.add("slideUp");
+                    menu.classList.add("slide-up");
                   //   menu.classList.add("hide");
                     menuul = document.createElement('ul');
                     if(flextype) { ann.addClasses(menuul, flextype + ' flexalingleft') }
-                    // menu.classList.add("slideUp");
+                    // menu.classList.add("slide-up");
                     menu.append(menuul);
                     menu.append(menuclose);                    
                     el = menu;                   
@@ -588,7 +620,7 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
                         document.addEventListener('click', (event) => {
                             const withinBoundaries = (event.composedPath().includes(menu)) || (event.composedPath().includes(menubutton))
                             if (!withinBoundaries) {
-                                menu.classList.add('slideUp')
+                                menu.classList.add('slide-up')
                                 menubutton.classList.remove("hide");
                                 menuclose.classList.add("hide");
                             }
@@ -656,8 +688,9 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
                   elarr[targetparent].append(el)  
                 }
                 let whichel = (elemtype === 'grid') ? grid : (elemtype === 'menu') ? menu : el;
-                
+
                 if(classes[y]) { ann.addClasses(whichel, classes[y], elemtype, x) }
+
 
                 hasevent = (callbacks[y]) ? true : (elemtype === 'menu') ? true : false;
                 if(hasevent) {
@@ -720,6 +753,7 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
                 
             }
         }
+        ann.get.completedsubs++;
     }
 
     async function jsonPrint(array,commands, classes, callbacks, params,elarr, i, targetparent, remeberonLoad) {
@@ -872,7 +906,7 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
             ann.executeFunctionByName(remeberonLoad)
             remeberonLoad = undefined;
           }
-          
+          ann.get.completedsubs++;
     }
     
 
@@ -884,7 +918,6 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
             remeberonLoad = undefined;
         }
     }
-    
     if(onLoad && !remeberonLoad) {
         // ann.require(onLoad, 10001).then(function(){
             ann.executeFunctionByName(onLoad)        
@@ -955,9 +988,58 @@ if(ann.get.hasDynResolution) {
     }
   }); 
 }
+// Each widget must contain 1 js file, 1 css file and both must be inside same subfolder which must match the name of both files. 
+// Any additional files must be loaded by the widget's main js file.
+// The widget's function must be of the same name as the widget name, prefixed with a custom namespace. Default is 'ann.iam.'
+// If the wiget has as onload function it also must be of the same name, prefixed with "ann.cl.onload." namespace.
+// The widgets folder is assumed to be located in the root of the public folder, a custom path may be passed in argument.
+// When loading widgets via main Sub (use 'widgets' command and pass names of widgets into the HTML array), 
+// default parent is assumed as specified in the Sub. If we want to override this parent
+// we may do so by assignign variable 'parent' to the existing widget function inside the widget function. eg. 
+// For example, we have two widgets idmenu and headbar. We want to append idmenu to particular 
+// dom object within headbar. So in the headbar Sub assign the class 'idmenuparent' (name + parent), to the particular dom object 
+// inside the idmenu Sub's closure function we assign headbar string to ann.iam.idmenu.parent namespace like this - 
+// ann.iam.idmenu.parent = 'headbar' (that's it, magic)
+ann.loadWidget = async function loadWidget(name, parent, namespace = "ann.iam.", path = 'widgets') {
+    if(!name) { console.error("Missing argument. What's the name of the widget you're loading?")}
+    let folder = path + '/' + name;
+    let js = name + '.js';
+    let css = folder + '/' + name + '.css';
+    let scripts = [js];
+    const loader = new ann.ScriptLoader({ folder: folder, src: scripts})
+    loader.load();
+    ann.addStyleSheet(css)
+    let fc = namespace + name;
+    console.log('fc :', fc);
+    let id = await ann.executeFunctionByName(fc)
+    let fconload = "ann.cl.onload." + name
+    ann.executeFunctionByName(fconload)
+    let predefinedparent = fc + ".parent"
+    if(id) {
+      let child = document.getElementById(id)
+      ann.evalObject(predefinedparent).then(async function(resolve){
+        if(resolve) {
+              let target = resolve + " ." + name + 'parent'
+              let res = await ann.require(target)
+              res.append(child)
+        } else {
+            let par = (parent) ? parent : undefined;
+            if(par) { par.append(child) }
+        }
+      })
+    }
+    ann.get.completedsubs++;
+}
 
 
-
+ann.addStyleSheet = async function addStyleSheet(source) {
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = source;
+  link.type = 'text/css';
+  var toplink = document.getElementsByTagName('link')[0];
+  toplink.parentNode.insertBefore(link, toplink);
+}
 
 ann.getCSSProp = (propName, element = document.documentElement) => getComputedStyle(element).getPropertyValue(propName);
 ann.setCSSProp = (propName, value, element = document.documentElement) => element.style.setProperty(propName, value);
@@ -1014,7 +1096,7 @@ ann.requireObject = async function requireObject(object, timeout = 3000, reload 
       else if (timeout && (Date.now() - start) >= timeout) {
         reject(new Error("timeout"));          
         if(reload) {
-          location.reload();
+         location.reload();
         }
       }
       else {        
@@ -1025,21 +1107,29 @@ ann.requireObject = async function requireObject(object, timeout = 3000, reload 
   }
 }
 // This seems a more reliable way to wait for an object, use instead requireObject
-ann.evalObject = async function evalObject(objectstring, callback, timeout = 1000, reload = true) {
-  var o = eval(objectstring)
+ann.evalObject = async function evalObject(objectstring, callback, reload = false, timeout = 1000) {
+ 
   var start = Date.now();
-  if(!o){
-    await ann.sleep(100)
-    if (timeout && (Date.now() - start) >= timeout && reload) {
-      location.reload();
+  var objs = objectstring;
+  return foo();
+  async function foo(obj = objs) {
+    var o = eval(obj)
+    if(!o){
+      await ann.sleep(100)
+      if (timeout && (Date.now() - start) >= timeout && reload) {
+        location.reload();
+        return;
+      } else if (timeout && (Date.now() - start) >= timeout) {
+        return;
+      }
+      foo(objectstring);
     }
-    evalObject(objectstring);
-  }
-  else {
-    if(callback) {
-      callback()
+    else {
+      if(callback) {
+        callback()
+      }
+      return o;
     }
-    return o;
   }
 }
 
@@ -1116,7 +1206,15 @@ ann.getMenuID = function getMenuID() {
   return ann.get.menuid;
 }
   
-ann.isVisible =  function isVisible(elorid) { var el = ann.getEl(elorid); if(typeof el === 'object') { return (!el.classList.contains('hide') && !el.classList.contains('slideUp') && !el.classList.contains('fadeOut') && el.style.display != 'none')} else {console.error('ann.isVisible function requires element parameter.')}}
+ann.isVisible = function isVisible(elorid) {
+  var el = ann.getEl(elorid);
+  if (typeof el === 'object') {
+    return (!el.classList.contains('hide') && !el.classList.contains('slide-up') && !el.classList.contains('slide-down') && !el.classList.contains('slide-left')
+    && !el.classList.contains('slide-right') && !el.classList.contains('fadeOut') && el.style.display != 'none')
+  } else {
+    console.error('ann.isVisible function requires element parameter.')
+  }
+}
 
 // https://dmitripavlutin.com/javascript-fetch-async-await/
 ann.fetch = async function fetchUrl(url, dataset, method = 'GET', content = "application/json") {
@@ -1170,7 +1268,7 @@ ann.fetch().catch(error => {
 //     // /movies or /categories request failed
 //   });
 
-ann.toggleSlide = function toggleSlide(elorid) {
+ann.toggleSlide = function toggleSlide(elorid, direction = 'up', timeout = 500) {
     
   var el = ann.getEl(elorid);
 
@@ -1178,16 +1276,16 @@ ann.toggleSlide = function toggleSlide(elorid) {
     if(ann.isVisible(el)) {
         el.classList.remove('z-mid');        
         setTimeout(function(){
-            el.classList.add('slideUp');            
-        },500)
+            el.classList.add('slide-' + direction);            
+        },timeout)
     }
     else{
       el.classList.add('z-mid');
-      el.classList.remove('slideUp');
+      el.classList.remove('slide-' + direction);
       el.classList.remove('hide');     
       setTimeout(function(){
-        el.classList.add('slideIn'); 
-      },500)          
+        el.classList.add('slide-in'); 
+      },timeout)          
     }
   }
 }
@@ -1264,7 +1362,6 @@ ann.createListener = function createListener(elorid, type, callback, params, i) 
          });
     
         function runEvent(callback, paramArray, el, e) {
-        console.log('callback :', callback);
             if(paramArray) {
                 if(Array.isArray(paramArray)) {
                     callback(el.id, e, ...paramArray)
@@ -1464,9 +1561,9 @@ ann.runLast = async function runLast(functionorarrayoffunctions, paramsorofarray
     var f = functionorarrayoffunctions;
     var p = paramsorofarrayparams;
     var timeindex = 0;
-    
     var interval = setInterval(async function() {
-      if(ann.get.completedsubs == currentsubid && currentsubid > -1) {
+      currentsubid = ann.get.subid.id;
+      if(ann.get.completedsubs >= currentsubid && currentsubid > -1) {
           clearInterval(interval);
           if(f[0]) {
             for(var x in f) {
@@ -2197,8 +2294,13 @@ ann.getPartString = function getPartString(str, chr, index) {
     return split;
 }
 
-ann.executeFunctionByName = function executeFunctionByName(functionName) {
-    ann.requireObject(functionName).then(function() {
+ann.executeFunctionByName = async function executeFunctionByName(functionName) {
+
+    return ann.evalObject(functionName).then(async function(resolve) {
+        if(resolve) {
+          let id = await resolve();
+          return id
+        }
         var context = window;
         var args = Array.prototype.slice.call(arguments, 2);
         var namespaces = functionName.split(".");
@@ -2207,9 +2309,10 @@ ann.executeFunctionByName = function executeFunctionByName(functionName) {
           context = context[namespaces[i]];
         }
         if(context[func]) {
-          return context[func].apply(context, args);
+          let id = context[func].apply(context, args);
+          return id;
         }
-    })    
+    })
   }
 
 ann.returnNumber = function returnNumber(str) { 
