@@ -1553,11 +1553,7 @@ ann.toggleSlide = function toggleSlide(elorid, direction = 'up', timeout = 500) 
       el.classList.remove('slide-' + direction);
       el.classList.remove('hide');     
       setTimeout(function(){
-        if(direction === 'up' || direction === 'down') {
-          el.classList.add('slide-in'); 
-        } else {
-          el.classList.add('slide-side'); 
-        }
+        el.classList.add('slide-in');
       },timeout)          
     }
   }

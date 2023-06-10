@@ -1697,9 +1697,13 @@
       /* background-color: rgba(0, 255, 0, .3); */
       /* padding: 5px; */
       transition: 2.5s cubic-bezier(0, 1, 0.5, 1);
-      transform: translateY(0);
+      transform: translate(0, 0);
       /* z-index: 100; */
     }
+  .slide-side {
+      transition: 2.5s cubic-bezier(0, 1, 0.5, 1);
+      transform: translateX(0);
+   }
     
   .slide-up {
     transition: 2.5s cubic-bezier(0, 1, 0.5, 1);
