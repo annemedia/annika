@@ -32,7 +32,7 @@ ann.get.this = -1;
 ann.keep.isChecked = false;
 ann.utils.imgholder = "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
 ann.get.menuid = null;
-
+ann.get.multiArrayPrintType = 1;
 // abstracts:
 // ann.get.menuCallback = async function menuCallback(id, e) {
 //       // You may want to copy this to your script.
@@ -126,18 +126,15 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
     
         flextype = (commands[i].includes('_x')) ? 'flexitr' : (commands[i].includes('_y')) ? 'flexitc' : undefined;
         // target parent is preceding element if $ index is not specified;
-        targetparent = (commands[i].startsWith('$')) ? parseInt(commands[i].split("_")[0].replace('$', '')) - 1 : i - 1;
+        targetparent = (!Array.isArray(commands[i]) && commands[i].startsWith('$')) ? parseInt(commands[i].split("_")[0].replace('$', '')) - 1 : i - 1;
         //  hasevent = (commands[i].includes('@')) ? true : false;
         hasevent = (callbacks[i]) ? true : false;
 
-
-
-        if(commands[i].startsWith('x') && commands[i].includes('_')) {
+        if(!Array.isArray(commands[i]) && commands[i].startsWith('x') && commands[i].includes('_')) {
           let multitest = ann.returnNumber(commands[i].split("_")[0])
           elmultiplier = (commands[i].startsWith('x') && !isNaN(multitest)) ? multitest : 1;
         }
-
-        var elemtype = getElementTypeFromCommand(commands, i);
+        var elemtype = (!Array.isArray(commands[i])) ? getElementTypeFromCommand(commands, i) : undefined
         var noFractals = (!htmls[i] || htmls[i] === null || typeof htmls[i] === 'string' || typeof htmls[i] === 'function' || commands[i].includes('croppie')) ? true : false;
         el = document.createElement(elemtype);
         elarr.push(el)
@@ -376,7 +373,7 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
 
     async function makeFractals(subid, elarr, elemtype, i, commands, htmls = [], classes = [], callbacks = [], params = [], onLoad, lasthtmls = [], flextype,targetparent,depth, elmultiplier) {
 
-        var hasFractalParent = (commands[i].includes('^_') || commands[i].includes('#_')) ? true : false;
+        var hasFractalParent = (commands[i].includes('^_') || commands[i].includes('#_') || Array.isArray(commands[i])) ? true : false;
         var el;
         
         if(onLoad) { remeberonLoad = onLoad}
@@ -385,7 +382,7 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
         if(elmultiplier > 1) {
           for (var e = 0; e < elmultiplier; e++) {
             el = document.createElement(elemtype);
-           ann.addClasses(el, classes[i]);                
+            ann.addClasses(el, classes[i]);                
             elarr[targetparent].append(el)
           }
           return;
@@ -393,8 +390,7 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
 
 
         if(hasFractalParent) {
-              
-            
+
             var isFractalChild;
             var commandsarray = []; 
             var classesarray = [];
@@ -410,6 +406,15 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
               if(typeof htmls[f][0] === 'object' && commands[i].includes('#_')) {
                 jsonPrint(htmls[f],commands, classes[f], callbacks[f], params[f],elarr,f,targetparent,remeberonLoad)                
                 return;
+              } else if(Array.isArray(commands[i])) {
+                  if(ann.get.multiArrayPrintType === 1) {
+                    multiArrayPrint(subid, htmls[f],commands[f], classes[f], callbacks[f], params[f],elarr,f,targetparent,remeberonLoad)   
+                    console.log('running multiArrayPrint1') 
+                  } else {
+                    console.log('running multiArrayPrint2')
+                    multiArrayPrint2(subid, htmls[f],commands[f], classes[f], callbacks[f], params[f],elarr,f,targetparent,remeberonLoad)    
+                  }                  
+                  return;
               }
                 isFractalChild = (commands[f].includes('^_')) ? true : false;
                 // hasFractalParent = (commands[i].includes('^w_')) ? true : false;
@@ -908,7 +913,201 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
           }
           ann.get.completedsubs++;
     }
-    
+
+    async function multiArrayPrint(subid, array,commands, classes, callbacks, params,elarr, i, targetparent, remeberonLoad) {
+      console.log('commands :', commands);
+      var elemtype,inputtype,wrap;
+      var target = (commands[0].startsWith('$')) ? parseInt(commands[0].split("_")[0].replace('$', '')) - 1 : i - 1;
+      var parent = elarr[target];
+      var els = []
+      for (var a = 0; a < array.length; a++) {
+          wrap = document.createElement(array[a][0])
+          parent.append(wrap)             
+          for (var b = 1; b < array[a].length; b++) {                            
+            for (var c = 0; c < commands.length; c++) {                    
+              elemtype = getElementTypeFromCommand(commands, c)
+              let subel = document.createElement(elemtype) 
+              subel.id = elemtype + '-' + subid + '-' + a + '-' + b;            
+              if(elemtype === 'label') {
+                let prevelemtype;
+                try {prevelemtype = getElementTypeFromCommand(commands, (c-1))} catch{}
+                if(prevelemtype==='input'){
+                    subel.setAttribute('for', subel.id)
+                }
+              }           
+              els.push(subel)
+              if(elemtype === 'input') { inputtype = ann.getPartString(commands[c],'input_', 1); subel.type = inputtype } else { inputtype = undefined}
+              ann.addClasses(subel,classes[c])
+              if(c===0){ wrap.append(subel) } else {
+                target = (commands[c].startsWith('$')) ? parseInt(commands[c].split("_")[0].replace('$', '')) - 1 : c - 1;
+                (els[target]) ? els[target].append(subel) : null
+                if(els.length === commands.length) {
+                  els = []
+                }
+              }                             
+            }
+
+          }
+      }
+    }
+
+    async function multiArrayPrint2(subid, array,commands, classes, callbacks, params,elarr, i, targetparent, remeberonLoad) {
+      console.log('commands :', commands);
+      var elemtype,inputtype,wrap,subel
+      var target = (commands[0].startsWith('$')) ? parseInt(commands[0].split("_")[0].replace('$', '')) - 1 : i - 1;
+      var parent = elarr[target];
+      var els = []
+          
+      for (var a = 0; a < array.length; a++) {        
+          if(a === 0) {
+            wrap = document.createElement(array[a])
+            parent.append(wrap) 
+          } else {
+            for (var c = 0; c < commands.length; c++) {                    
+              elemtype = getElementTypeFromCommand(commands, c)
+              subel = document.createElement(elemtype) 
+              subel.id = ann.crc32((elemtype + a + c + array[0] + array[a][0]));            
+              if(elemtype === 'label') {
+                let prevelemtype;
+                try {prevelemtype = getElementTypeFromCommand(commands, (c-1))} catch{}
+                if(prevelemtype==='input'){
+                    subel.setAttribute('for', els[els.length - 1].id)
+                  // console.log('array[a][0] :', array[0], array[a][0]);
+                }
+              }  
+              els.push(subel)
+              if(elemtype === 'input') { inputtype = ann.getPartString(commands[c],'input_', 1); subel.type = inputtype } else { inputtype = undefined}
+              if(classes[0][c]) { ann.addClasses(subel,classes[0][c])} else {ann.addClasses(subel,classes[c]) }
+              
+              
+              let hasarraycontent = (classes[c] && classes[c].includes('arraycontent')) ? true : false;
+              if(hasarraycontent || (classes[0][c] && classes[0][c].includes('arraycontent'))) {
+                subel.innerHTML = array[a][0]
+                subel.setAttribute('name',array[a][0].replace(/[\s~`!@#$%^&*()_+\-={[}\]|\\:;"'<,>.?/]+/g, '_'));     
+              }            
+              if(c===0){ wrap.append(subel) } else {
+                target = (commands[c].startsWith('$')) ? parseInt(commands[c].split("_")[0].replace('$', '')) - 1 : c - 1;
+                (els[target]) ? els[target].append(subel) : null                
+                if(els.length === commands.length) {
+                  els = []
+                }
+
+                let hasevent = (callbacks[c]) ? true : false;
+                if(hasevent) {
+                  
+                  if(!Array.isArray(callbacks[c])) {      
+                    let lastindex =  commands[c].lastIndexOf('@');
+                    let listenertype = commands[c].substring(lastindex + 1)
+                    if(lastindex === - 1 && callbacks[c]) {listenertype = 'click'}                                  
+                    ann.createListener(subel, listenertype, callbacks[c], params[c]);                        
+                  } else if(callbacks[0][c]) {
+                    let lastindex =  commands[0][c].lastIndexOf('@');
+                    let listenertype = commands[0][c].substring(lastindex + 1)
+                    if(lastindex === - 1 && callbacks[0][c]) {listenertype = 'click'}  
+                    let par = (params && params[0][c]) ? params[0][c] : null
+                    ann.createListener(subel, listenertype, callbacks[0][c], par);    
+                  }
+                }
+               
+              }                                
+            }
+            if(array[a][1][0]) {console
+              var containername, innerel,subwrap, sel;
+              let innerels = [];
+              for (var b = 0; b < array[a].length; b++) {
+                if(b === 0) { containername = array[a][b].replace(/[\s~`!@#$%^&*()_+\-={[}\]|\\:;"'<,>.?/]+/g, '_');                 
+                  //  ann.colorLog('container ' + containername, 'success')
+                    subwrap = document.createElement('div')
+                    subwrap.classList.add('ccontent')
+                    ann.addClasses(subwrap, 'ccontent ' + containername)
+                    sel = document.querySelector("[name='"+containername+"']").parentElement;
+                   // console.log('sel :', sel);
+                    sel.append(subwrap) 
+                  } else {
+                  for (var d = 0; d < array[a][b].length; d++) {                    
+                    for (var c = 0; c < commands.length; c++) {   
+                      
+                      // console.log('feelz',innername)
+
+                      elemtype = getElementTypeFromCommand(commands, c)
+                      innerel = document.createElement(elemtype) 
+                      innerel.id = ann.crc32((elemtype + a + b + c + d + array[0] + array[a][0]));            
+                      if(elemtype === 'label') {
+                        let prevelemtype;
+                        try {prevelemtype = getElementTypeFromCommand(commands, (c-1))} catch{}
+                        if(prevelemtype==='input'){
+                          innerel.setAttribute('for', innerels[innerels.length - 1].id)
+                          // console.log('array[a][0] :', array[0], array[a][0]);
+                        }
+                      }  
+                      innerels.push(innerel)
+                      if(elemtype === 'input') { inputtype = ann.getPartString(commands[c],'input_', 1); innerel.type = inputtype } else { inputtype = undefined}
+                      if(classes[1][c]) { ann.addClasses(innerel,classes[1][c])} else {ann.addClasses(innerel,classes[c]) }
+                      let hasarraycontent = (classes[c] && classes[c].includes('arraycontent')) ? true : false;
+                      if(hasarraycontent || (classes[1][c] && classes[1][c].includes('arraycontent'))) {
+                        innerel.innerHTML = array[a][b][d];
+                      //  console.log('array[a][b][d] :', array[a][b][d]);
+                        let innername = containername + '_' + array[a][b][d].replace(/[\s~`!@#$%^&*()_+\-={[}\]|\\:;"'<,>.?/]+/g, '_');
+                        innerel.setAttribute('name',innername);     
+                      }            
+                      if(c===0){ subwrap.append(innerel) } else {
+                        target = (commands[c].startsWith('$')) ? parseInt(commands[c].split("_")[0].replace('$', '')) - 1 : c - 1;
+                        (innerels[target]) ? innerels[target].append(innerel) : null
+                        if(innerels.length === commands.length) {
+                          innerels = []
+                        }
+                      }
+                      
+                      let hasevent = (callbacks[c]) ? true : false;
+                      if(hasevent) {                                                
+                        if(!Array.isArray(callbacks[c])) {                       
+                          let lastindex =  commands[c].lastIndexOf('@');
+                          let listenertype = commands[c].substring(lastindex + 1)
+                          if(lastindex === - 1 && callbacks[c]) {listenertype = 'click'}                                  
+                          ann.createListener(innerel, listenertype, callbacks[c], params[c]);                        
+                        } else if(callbacks[1][c]) {
+                       //   ann.colorLog('hasevent2 :' + subel, 'success');  
+                          let lastindex =  commands[1][c].lastIndexOf('@');
+                          let listenertype = commands[1][c].substring(lastindex + 1)
+                          if(lastindex === - 1 && callbacks[1][c]) {listenertype = 'click'}  
+                          let par = (params && params[1][c]) ? params[1][c] : null
+                          ann.createListener(innerel, listenertype, callbacks[1][c], par);    
+                        }
+                      }
+                    }
+                  }
+                }
+              }  
+            }
+          }
+      }
+              
+
+    }
+
+    ann.colorLog = function colorLog(message, color) {
+
+      color = color || "black";
+  
+      switch (color) {
+          case "success":  
+               color = "Green"; 
+               break;
+          case "info":     
+                  color = "DodgerBlue";  
+               break;
+          case "error":   
+               color = "Red";     
+               break;
+          case "warning":  
+               color = "Orange";   
+               break;
+          default: 
+               color = color;
+      }
+  
+      console.log("%c" + message, "color:" + color);
+  }
 
     async function subroutineOnLoad(commands,htmls, i,remeberonLoad, lasthtmls) {
         
@@ -980,6 +1179,76 @@ ann.sha256 = async function sha256(message) {
 
 window.sha256 = ann.sha256
 
+ann.MD5 = function MD5(e) {
+  function h(a, b) {
+      var c, d, e, f, g;
+      e = a & 2147483648;
+      f = b & 2147483648;
+      c = a & 1073741824;
+      d = b & 1073741824;
+      g = (a & 1073741823) + (b & 1073741823);
+      return c & d ? g ^ 2147483648 ^ e ^ f : c | d ? g & 1073741824 ? g ^ 3221225472 ^ e ^ f : g ^ 1073741824 ^ e ^ f : g ^ e ^ f
+  }
+
+  function k(a, b, c, d, e, f, g) {
+      a = h(a, h(h(b & c | ~b & d, e), g));
+      return h(a << f | a >>> 32 - f, b)
+  }
+
+  function l(a, b, c, d, e, f, g) {
+      a = h(a, h(h(b & d | c & ~d, e), g));
+      return h(a << f | a >>> 32 - f, b)
+  }
+
+  function m(a, b, d, c, e, f, g) {
+      a = h(a, h(h(b ^ d ^ c, e), g));
+      return h(a << f | a >>> 32 - f, b)
+  }
+
+  function n(a, b, d, c, e, f, g) {
+      a = h(a, h(h(d ^ (b | ~c), e), g));
+      return h(a << f | a >>> 32 - f, b)
+  }
+
+  function p(a) {
+      var b = "",
+          d = "",
+          c;
+      for (c = 0; 3 >= c; c++) d = a >>> 8 * c & 255, d = "0" + d.toString(16), b += d.substr(d.length - 2, 2);
+      return b
+  }
+  var f = [],
+      q, r, s, t, a, b, c, d;
+  e = function(a) {
+      a = a.replace(/\r\n/g, "\n");
+      for (var b = "", d = 0; d < a.length; d++) {
+          var c = a.charCodeAt(d);
+          128 > c ? b += String.fromCharCode(c) : (127 < c && 2048 > c ? b += String.fromCharCode(c >> 6 | 192) : (b += String.fromCharCode(c >> 12 | 224), b += String.fromCharCode(c >> 6 & 63 | 128)), b += String.fromCharCode(c & 63 | 128))
+      }
+      return b
+  }(e);
+  f = function(b) {
+      var a, c = b.length;
+      a = c + 8;
+      for (var d = 16 * ((a - a % 64) / 64 + 1), e = Array(d - 1), f = 0, g = 0; g < c;) a = (g - g % 4) / 4, f = g % 4 * 8, e[a] |= b.charCodeAt(g) << f, g++;
+      a = (g - g % 4) / 4;
+      e[a] |= 128 << g % 4 * 8;
+      e[d - 2] = c << 3;
+      e[d - 1] = c >>> 29;
+      return e
+  }(e);
+  a = 1732584193;
+  b = 4023233417;
+  c = 2562383102;
+  d = 271733878;
+  for (e = 0; e < f.length; e += 16) q = a, r = b, s = c, t = d, a = k(a, b, c, d, f[e + 0], 7, 3614090360), d = k(d, a, b, c, f[e + 1], 12, 3905402710), c = k(c, d, a, b, f[e + 2], 17, 606105819), b = k(b, c, d, a, f[e + 3], 22, 3250441966), a = k(a, b, c, d, f[e + 4], 7, 4118548399), d = k(d, a, b, c, f[e + 5], 12, 1200080426), c = k(c, d, a, b, f[e + 6], 17, 2821735955), b = k(b, c, d, a, f[e + 7], 22, 4249261313), a = k(a, b, c, d, f[e + 8], 7, 1770035416), d = k(d, a, b, c, f[e + 9], 12, 2336552879), c = k(c, d, a, b, f[e + 10], 17, 4294925233), b = k(b, c, d, a, f[e + 11], 22, 2304563134), a = k(a, b, c, d, f[e + 12], 7, 1804603682), d = k(d, a, b, c, f[e + 13], 12, 4254626195), c = k(c, d, a, b, f[e + 14], 17, 2792965006), b = k(b, c, d, a, f[e + 15], 22, 1236535329), a = l(a, b, c, d, f[e + 1], 5, 4129170786), d = l(d, a, b, c, f[e + 6], 9, 3225465664), c = l(c, d, a, b, f[e + 11], 14, 643717713), b = l(b, c, d, a, f[e + 0], 20, 3921069994), a = l(a, b, c, d, f[e + 5], 5, 3593408605), d = l(d, a, b, c, f[e + 10], 9, 38016083), c = l(c, d, a, b, f[e + 15], 14, 3634488961), b = l(b, c, d, a, f[e + 4], 20, 3889429448), a = l(a, b, c, d, f[e + 9], 5, 568446438), d = l(d, a, b, c, f[e + 14], 9, 3275163606), c = l(c, d, a, b, f[e + 3], 14, 4107603335), b = l(b, c, d, a, f[e + 8], 20, 1163531501), a = l(a, b, c, d, f[e + 13], 5, 2850285829), d = l(d, a, b, c, f[e + 2], 9, 4243563512), c = l(c, d, a, b, f[e + 7], 14, 1735328473), b = l(b, c, d, a, f[e + 12], 20, 2368359562), a = m(a, b, c, d, f[e + 5], 4, 4294588738), d = m(d, a, b, c, f[e + 8], 11, 2272392833), c = m(c, d, a, b, f[e + 11], 16, 1839030562), b = m(b, c, d, a, f[e + 14], 23, 4259657740), a = m(a, b, c, d, f[e + 1], 4, 2763975236), d = m(d, a, b, c, f[e + 4], 11, 1272893353), c = m(c, d, a, b, f[e + 7], 16, 4139469664), b = m(b, c, d, a, f[e + 10], 23, 3200236656), a = m(a, b, c, d, f[e + 13], 4, 681279174), d = m(d, a, b, c, f[e + 0], 11, 3936430074), c = m(c, d, a, b, f[e + 3], 16, 3572445317), b = m(b, c, d, a, f[e + 6], 23, 76029189), a = m(a, b, c, d, f[e + 9], 4, 3654602809), d = m(d, a, b, c, f[e + 12], 11, 3873151461), c = m(c, d, a, b, f[e + 15], 16, 530742520), b = m(b, c, d, a, f[e + 2], 23, 3299628645), a = n(a, b, c, d, f[e + 0], 6, 4096336452), d = n(d, a, b, c, f[e + 7], 10, 1126891415), c = n(c, d, a, b, f[e + 14], 15, 2878612391), b = n(b, c, d, a, f[e + 5], 21, 4237533241), a = n(a, b, c, d, f[e + 12], 6, 1700485571), d = n(d, a, b, c, f[e + 3], 10, 2399980690), c = n(c, d, a, b, f[e + 10], 15, 4293915773), b = n(b, c, d, a, f[e + 1], 21, 2240044497), a = n(a, b, c, d, f[e + 8], 6, 1873313359), d = n(d, a, b, c, f[e + 15], 10, 4264355552), c = n(c, d, a, b, f[e + 6], 15, 2734768916), b = n(b, c, d, a, f[e + 13], 21, 1309151649), a = n(a, b, c, d, f[e + 4], 6, 4149444226), d = n(d, a, b, c, f[e + 11], 10, 3174756917), c = n(c, d, a, b, f[e + 2], 15, 718787259), b = n(b, c, d, a, f[e + 9], 21, 3951481745), a = h(a, q), b = h(b, r), c = h(c, s), d = h(d, t);
+  return (p(a) + p(b) + p(c) + p(d)).toLowerCase()
+};
+window.MD5 = ann.MD5
+ann.crc32=function(r){for(var a,o=[],c=0;c<256;c++){a=c;for(var f=0;f<8;f++)a=1&a?3988292384^a>>>1:a>>>1;o[c]=a}for(var n=-1,t=0;t<r.length;t++)n=n>>>8^o[255&(n^r.charCodeAt(t))];return(-1^n)>>>0};
+window.crc32 = ann.crc32
+
+
 if(ann.get.hasDynResolution) {
   window.addEventListener('resize', function(e){
     ann.applyResolution();
@@ -1010,11 +1279,11 @@ ann.loadWidget = async function loadWidget(name, parent, namespace = "ann.iam.",
     loader.load();
     ann.addStyleSheet(css)
     let fc = namespace + name;
-    console.log('fc :', fc);
     let id = await ann.executeFunctionByName(fc)
     let fconload = "ann.cl.onload." + name
     ann.executeFunctionByName(fconload)
     let predefinedparent = fc + ".parent"
+    try { eval(predefinedparent) } catch { location.reload()}
     if(id) {
       let child = document.getElementById(id)
       ann.evalObject(predefinedparent).then(async function(resolve){
@@ -1205,7 +1474,7 @@ ann.getMenuID = function getMenuID() {
   if(!ann.get.menuid) { ann.get.menuid = document.querySelector('menu').id }
   return ann.get.menuid;
 }
-  
+
 ann.isVisible = function isVisible(elorid) {
   var el = ann.getEl(elorid);
   if (typeof el === 'object') {
@@ -1284,21 +1553,25 @@ ann.toggleSlide = function toggleSlide(elorid, direction = 'up', timeout = 500) 
       el.classList.remove('slide-' + direction);
       el.classList.remove('hide');     
       setTimeout(function(){
-        el.classList.add('slide-in'); 
+        if(direction === 'up' || direction === 'down') {
+          el.classList.add('slide-in'); 
+        } else {
+          el.classList.add('slide-side'); 
+        }
       },timeout)          
     }
   }
 }
 
 
-ann.toggleFade = function toggleFade(elorid) {
+ann.toggleFade = function toggleFade(elorid, forceflex = false) {
 
     var el = ann.getEl(elorid);
 
     if(typeof el === 'object') {
         if(el.classList.contains('fadeOut') || el.classList.contains('hide')) {
           if(!ann.isVisible(el)) {
-              ann.show(el);
+              ann.show(el, true, forceflex);
           }
           el.classList.remove('fadeOut')
           el.classList.remove('z-low')
@@ -1326,11 +1599,11 @@ ann.getEl = function getEl(elorid) {
   return el
 }
 
-ann.show = function show(elorid, show = true) {
+ann.show = function show(elorid, show = true, forceflex = false) {
   var el = ann.getEl(elorid);
   if(typeof el === 'object') {
     if(show){
-      if(el.classList.contains('flexitc') || el.classList.contains('flexitr')) {
+      if(el.classList.contains('flexitc') || el.classList.contains('flexitr') || forceflex) {
         el.style.display = 'flex';
       } else {
         el.style.display = 'unset';
@@ -1735,9 +2008,10 @@ ann.collapsible = async function collapsible(openfirst = ann.get.collapsiblefirs
                       parentcc.style.maxHeight = (ann.returnNumber(parentcc.style.maxHeight) + ann.returnNumber(content.style.maxHeight)) + "px";                
                     }
                   }
-                  var topPos = this.offsetTop;
-                  this.closest('.scrollbar').scrollTop = topPos;
-          
+                  if(this.closest('.scrollbar')) {
+                    var topPos = this.offsetTop;
+                    this.closest('.scrollbar').scrollTop = topPos;
+                  }
               });
             collapsibles[i].processed = true;
           }
@@ -2283,7 +2557,19 @@ ann.downloadBase64File = function downloadBase64File(contentBase64, fileName) {
     downloadLink.download = fileName;
     downloadLink.click(); 
 }
-
+ann.imageUrlToBase64 = async function imageUrlToBase64(url) {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  return new Promise((onSuccess, onError) => {
+    try {
+      const reader = new FileReader() ;
+      reader.onload = function(){ onSuccess(this.result) } ;
+      reader.readAsDataURL(blob) ;
+    } catch(e) {
+      onError(e);
+    }
+  });
+};
 ann.getPartString = function getPartString(str, chr, index) {
     var str = str;
     if(str.includes("_@")) {
