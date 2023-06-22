@@ -1,6 +1,6 @@
 *******************************************************************************
 
-Collaborative Public License
+Collaborative Public License 
 
 Copyright (c) 2022 Anne Media Patrons
 
