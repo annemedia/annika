@@ -40,7 +40,7 @@ Everyone is permitted to copy and distribute verbatim or copies of this
 license document. To license your product, the licensor's name must be changed. 
 Verbatim modification is allowed as long as the license name is changed.
 
-(see the Offer & Terms at https://annika.anne.media/)
+(see the Offer & Terms at https://anne.media/)
 
 *******************************************************************************
 
