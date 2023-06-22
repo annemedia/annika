@@ -33,7 +33,7 @@ To learn Annika, our [online documentation](https://annika.anne.media) is the be
 To see a demo of this repository, visit [https://annika-demo.anne.media](https://annika-demo.anne.media).
 
 -   [Download the latest release](https://github.com/annemedia/annika/releases)
--   Extract the zip file and take note of the following folders and files in the main directory.
+-   Extract the archive and take note of the following folders and files in the main directory.
 
 LARAVEL BACK END
 
