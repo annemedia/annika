@@ -12,7 +12,8 @@ ann.get.regex1 = /[\s~`!@#$%^&*()_+\-={[}\]|\\:;"'<,>.?/]+/g // replaces special
 ann.get.collapsenonactive = true;  
 ann.get.collapsiblefirstopen = true;
 ann.get.showSliderInput = false;
-
+// if widgets fails to load for any reason, Annika will retry. How long should we wait? Set to 10s for development, reduce this in production, or set it 1 to reload page instantly after second failed attempt or set it to 0 to disable the reload
+ann.get.failsafetimeout = 10000;
 
 ann.get.pageIndex = 0;
 
@@ -138,11 +139,10 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
         var noFractals = (!htmls[i] || htmls[i] === null || htmls[i] instanceof Element || typeof htmls[i] === 'string' || typeof htmls[i] === 'function' || commands[i].includes('croppie')) ? true : false;
         el = document.createElement(elemtype);
         elarr.push(el)
+
         if(commands[i].includes('widgets')) {
-          console.log('elarr[targetparent] :', elarr[targetparent]);
           for (var h in htmls[i]) {           
-            ann.loadWidget(htmls[i][h], elarr[targetparent], true)
-                       
+            ann.widgetLoader(htmls[i][h], elarr[targetparent])        
           }
           return;
         }
@@ -224,8 +224,7 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
                 label.innerHTML = cdata[n].emoji + "&nbsp;" + cdata[n].name;
                 label.setAttribute('for', input.id)
                 el.append(input);el.append(label);
-              } 
-              console.log('el :', el);
+              }
               // continue;    
             }
 
@@ -425,9 +424,7 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
               } else if(Array.isArray(commands[i])) {
                   if(ann.get.multiArrayPrintType === 1) {
                     multiArrayPrint(subid, htmls[f],commands[f], classes[f], callbacks[f], params[f],elarr,f,targetparent,remeberonLoad)   
-                    console.log('running multiArrayPrint1') 
                   } else {
-                    console.log('running multiArrayPrint2')
                     multiArrayPrint2(name, subid, htmls[f],commands[f], classes[f], callbacks[f], params[f],elarr,f,targetparent,remeberonLoad)    
                   }                  
                   return;
@@ -958,7 +955,6 @@ ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes =
     }
 
     async function multiArrayPrint(subid, array,commands, classes, callbacks, params,elarr, i, targetparent, remeberonLoad) {
-      console.log('commands :', commands);
       var elemtype,inputtype,wrap;
       var target = (commands[0].startsWith('$')) ? parseInt(commands[0].split("_")[0].replace('$', '')) - 1 : i - 1;
       var parent = elarr[target];
@@ -1317,49 +1313,85 @@ if(ann.get.hasDynResolution) {
   }); 
 }
 // Each widget must contain 1 js file, 1 css file and both must be inside same subfolder which must match the name of both files. 
+// e.g. mywidget/mywidget.js mywidget/mywidget.css
 // Any additional files must be loaded by the widget's main js file.
-// The widget's function must be of the same name as the widget name, prefixed with a custom namespace. Default is 'ann.iam.'
-// If the wiget has as onload function it also must be of the same name, prefixed with "ann.cl.onload." namespace.
+// The widget's function must be of the same name as the widget name, prefixed with a namespace. Default is 'ann.iam.'
+// If the widget has as onload function it also must be of the same name, prefixed with "ann.cl.onload." namespace.
 // The widgets folder is assumed to be located in the root of the public folder, a custom path may be passed in argument.
 // When loading widgets via main Sub (use 'widgets' command and pass names of widgets into the HTML array), 
-// default parent is assumed as specified in the Sub. If we want to override this parent
-// we may do so by assignign variable 'parent' to the existing widget function inside the widget function. eg. 
-// For example, we have two widgets idmenu and headbar. We want to append idmenu to particular 
-// dom object within headbar. So in the headbar Sub assign the class 'idmenuparent' (name + parent), to the particular dom object 
-// inside the idmenu Sub's closure function we assign headbar string to ann.iam.idmenu.parent namespace like this - 
-// ann.iam.idmenu.parent = 'headbar' (that's it, magic)
-ann.loadWidget = async function loadWidget(name, parent, hasonload = false, path = 'widgets', namespace = "ann.iam.") {
-    if(!name) { console.error("Missing argument. What's the name of the widget you're loading?")}
-    let folder = path + '/' + name;
-    let js = name + '.js';
-    let css = folder + '/' + name + '.css';
-    let scripts = [js];
-    const loader = new ann.ScriptLoader({ folder: folder, src: scripts})
-    loader.load();
-    ann.addStyleSheet(css)
-    let fc = namespace + name;
-    let id = await ann.executeFunctionByName(fc)
-    if(hasonload) {
-      let fconload = "ann.cl.onload." + name
-      console.log('fconload :', fconload);
-      ann.executeFunctionByName(fconload)
+// default parent is assumed as specified in the main Sub that calls the widgets. If we want to override this parent
+// we have two options...
+
+// For example...
+// 1: let widgets = [['widget1','childwidget1'],['widget2',['childwidget2', 'childwidget3','childwidget3']],'widget3'] 
+// at widgets[0][0],  widgets[1][0], and  widgets[2] are a parent widgets, each of the parent widgets will be appended to the parent
+// specified in the main sub. At widgets[0][1], widgets[1][1] are child widgets, each of them will be appended to its particular parent widget
+// specified at widgets[0][0] widgets[1][0] using the parent widget's first DOM object
+// 2: If we want to append a child widget into a parent widget at deeper level inside its DOM tree, e.g. the fourth DOM object specified 
+// in the Sub of the parent widget, we do so by assigning a unique class (e.g. 'childwidget2parent' (widget name + parent))
+ // to the particular DOM object of the parent widget. (that's it, magic)
+ann.widgetLoader = async function widgetLoader(nameorarray, parent, path = 'widgets', namespace = "ann.iam.") {
+
+    var p = path, n = namespace;
+    if(!nameorarray) { console.error("Missing argument. What's the name of the widget you're loading?")}
+
+    if(Array.isArray(nameorarray) && Array.isArray(nameorarray[1])) {
+        let par = await loadWidget(nameorarray[0], parent)
+        for(var x in nameorarray[1]) {
+          loadWidget(nameorarray[1][x], par)
+        }        
+    } else if(Array.isArray(nameorarray) &&  nameorarray[1] && !Array.isArray(nameorarray[1])) {
+          let par = await loadWidget(nameorarray[0], parent)
+          loadWidget(nameorarray[1], par)
+    } else {
+          loadWidget(nameorarray, parent)
     }
-    let predefinedparent = fc + ".parent"
-    try { eval(predefinedparent) } catch { location.reload()}
-    if(id) {
-      let child = document.getElementById(id)
-      ann.evalObject(predefinedparent).then(async function(resolve){
-        if(resolve) {
-              let target = "." + name + 'parent'
-              let res = await ann.require(target)
-              res.append(child)
-        } else {
-            let par = (parent) ? parent : undefined;
-            if(par) { par.append(child) }
+
+    async function loadWidget(name, par, path = p, namespace = n) {
+      let folder = path + '/' + name;
+      let js = name + '.js';
+      let css = folder + '/' + name + '.css';
+      let scripts = [js];
+      const loader = new ann.ScriptLoader({ folder: folder, src: scripts})
+      loader.load();
+      ann.addStyleSheet(css)
+      let fc = namespace + name;
+      let id = await ann.executeFunctionByName(fc)
+      console.log('id :', id,fc);
+      if(!id) {
+        console.warn('Widget ' + name  + " returned no id and failed to load, retrying.")
+        let timer = Date.now()
+        while(!id) {
+          await ann.sleep(100);
+          id = await ann.executeFunctionByName(fc)
+          ann.colorLog('Waiting max 10s for widget ' + name + ' Does the widget return a Subroutine or its ID?', 'error')
+          if((Date.now() - timer) >= ann.get.failsafetimeout) {
+              if(ann.get.failsafetimeout > 0) {
+                location.reload();
+              } else { break; }
+          }
         }
-      })
-    }
-    ann.get.completedsubs++;
+        ann.colorLog('Widget ' + name + ' has loaded', 'success')
+      }
+      let dom = document.getElementById(id)
+
+      let trytargetclass = "." + name + 'parent'
+      let overrideparent = document.querySelector(trytargetclass)
+  
+      if(overrideparent) {
+        overrideparent.append(dom)
+      } else if(par) { par.append(dom) } else {
+        document.body.append(dom)
+        ann.colorLog('Widget ' + name  + " has no parent and was appended to body", 'error')
+      }
+      // if(hasonload) {  //trying onload anyway
+        let fconload = "ann.cl.onload." + name
+        console.log('fconload :', fconload);
+        ann.executeFunctionByName(fconload)
+ //     }
+      ann.get.completedsubs++;
+      return dom;
+  }
 }
 
 
@@ -2029,7 +2061,6 @@ ann.collapsible = async function collapsible(openfirst = ann.get.collapsiblefirs
           if(!collapsibles[i].processed) {
 
             if(!collapsibles[i].nextElementSibling || !collapsibles[i].parentElement) {
-              console.log('collapsibles[i] :', collapsibles[i]);
               console.error('Collapsibles failed to load, check your HTML syntax');
               return;
             }
@@ -2261,7 +2292,6 @@ ann.modal = function modal(title, content, buttoncount = 2, parentel = false, pw
             ann.get.modal.modalparent.append(modal);
         } else {
           let header = document.querySelector('header');
-          console.log('header.nextElementSibling :', header.nextElementSibling);
           if(header && header.nextElementSibling && header.nextElementSibling.tagName === 'DIV') {          
             header.nextElementSibling.append(modal)
           }
@@ -2649,17 +2679,17 @@ ann.executeFunctionByName = async function executeFunctionByName(functionName) {
           let id = await resolve();
           return id
         }
-        var context = window;
-        var args = Array.prototype.slice.call(arguments, 2);
-        var namespaces = functionName.split(".");
-        var func = namespaces.pop();
-        for(var i = 0; i < namespaces.length; i++) {
-          context = context[namespaces[i]];
-        }
-        if(context[func]) {
-          let id = context[func].apply(context, args);
-          return id;
-        }
+        // var context = window;
+        // var args = Array.prototype.slice.call(arguments, 2);
+        // var namespaces = functionName.split(".");
+        // var func = namespaces.pop();
+        // for(var i = 0; i < namespaces.length; i++) {
+        //   context = context[namespaces[i]];
+        // }
+        // if(context[func]) {
+        //   let id = context[func].apply(context, args);
+        //   return id;
+        // }
     })
   }
 
