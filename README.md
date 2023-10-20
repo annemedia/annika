@@ -300,7 +300,7 @@ BCH: qrgsxlg8utlvd0mjl289d2nq79jxr0vwgsf3t94nqu
 
 BTC: bc1qke2vwv7hnufcj6rc2yj6p90regsl4gh4pfw3na
 
-Thank you
+Thank you 💜
 
 ## Social
 
