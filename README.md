@@ -30,7 +30,7 @@ follow the instructions at [https://www.mongodb.com/docs/manual/administration/i
 
 To learn Annika, our [online documentation](https://annika.anne.media) is the best place to go.
 
-To see a demo of this repository, visit [https://annika-demo.anne.media](https://annika-demo.anne.media).
+To see a demo of this repository, visit [https://annika.anne.media](https://annika.anne.media).
 
 -   [Download the latest release](https://github.com/annemedia/annika/releases)
 -   Extract the archive and take note of the following folders and files in the main directory.
