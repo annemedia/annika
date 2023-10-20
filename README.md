@@ -294,9 +294,9 @@ If you love Annika, please add our minibanner to your website.
 
 ## Buy us a bun & coffee
 
-BCH: qrgsxlg8utlvd0mjl289d2nq79jxr0vwgsf3t94nqu
-
 XMR: 89Nz71j5WmCEeWAQEow3SdXzhwfbybctGJ2TGDKYYCwzYahHTtSTFnN9ij6SZD3j5S3rUnHJpUZSqFTvjGNakXpo8ySqUYw
+
+BCH: qrgsxlg8utlvd0mjl289d2nq79jxr0vwgsf3t94nqu
 
 BTC: bc1qke2vwv7hnufcj6rc2yj6p90regsl4gh4pfw3na
 
