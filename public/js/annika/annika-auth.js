@@ -1,4 +1,4 @@
-// Copyright (c) 2022 Anne Media Patrons | Collaborative Public Licence (https://annika.anne.media/)
+
 ann.cl.reg.regset = {
     pub: '',
     salut: '',

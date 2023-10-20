@@ -47,18 +47,19 @@ async function app() {
 
     async function addfooter() {
 
-        let footer = '&copy;' + new Date().getFullYear() + '&nbsp;Anne Media Patrons<br>All Rights Reserved.';
+        let footer = '&copy;' + new Date().getFullYear() + '&nbsp;Anne Media Developers<br>All Rights Reserved.';
         
         let css1 = 'h-30 bottom bg-black-8';
         let css2 = 'jself-start w-100 fs-07rem'
+        let css3 = 'w-100px'
         let ccs4 = 'homelink'
-        let licence = "<modalcall><u>Licence</u><modaltip>" + ann.get.licence + "</modaltip></modalcall>"
+        let licence = "MIT Licence"
         let annemedia = "<a href='https://anne.media' class='homelink' target='_blank'>Anne Media</a>"
        
         return ann.Subroutine('footer',
             ['footer_x', 'div', '$1_div','$1_div'],
             [null,footer,licence,annemedia],
-            [css1,css2,null,ccs4],
+            [css1,css2,css3,ccs4],
         );
     }
 }

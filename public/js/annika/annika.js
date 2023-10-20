@@ -1,4 +1,4 @@
-// Copyright (c) 2022 Anne Media Patrons | Collaborative Public Licence (https://annika.anne.media/)
+
 // use ann.cl.onload namespace for Subs onload functions
 
 ann = {}, window.ann = ann, ann.get = {}, ann.iam = {}, ann.cl = {}, ann.cl.auth = {}, ann.cl.reg = {}, ann.docs = {}, ann.cl.onload = {}, ann.cl.onresize = {}, ann.keep = {}, ann.bool = {}, ann.utils = {}, window.ann = ann; ann.get.modal = {};
@@ -44,17 +44,6 @@ ann.get.multiArrayPrintType = 1;
       // You may want to copy this to your script.
       // See the docs at https://annika.anne.media (The Annika API section) for more info
 // }
-
-ann.get.licence = "<div><pre>Collaborative Public Licence</pre><pre>Copyright &copy;2022 Anne Media Patrons</pre>" +
-    "<pre>Permission is hereby granted to any Patron obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, for any purpose, commercial or non-commercial, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, subject to the following conditions:</pre>" +
-    "<pre>0.1) Patron is a fractional copyright owner of the Software who acquired the Patron Rights via the Interchange Offer (the &quot;Offer&quot;) at Anne Media.</pre>" +
-    "<pre>0.2) The Offer is a current offer addressed to an unlimited number of individuals who can enter into an Agreement on the terms contained in the Offer and Anne Media Terms.</pre>" +
-    "<pre>0.3) Patron Rights are granted for a lifetime and subject to the Offer.</pre>" +
-    "<pre>1) The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</pre>" +
-    "<pre>2) This License does not grant permission to use the trade names, trademarks, service marks, or product names of the Founding Patrons, except as required for reasonable and customary use in describing the origin of the Work and reproducing the content of the copyright notice file.</pre>" +
-    "<pre>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</pre>" +
-    "<pre>Everyone is permitted to copy and distribute verbatim or copies of this license document. To license your product, the licensor's name must be changed. Verbatim modification is allowed as long as the license name is changed.</pre></div>"
-
 
 ann.Subroutine = async function Subroutine(name, commands, htmls = [], classes = [], callbacks = [], params = []) {
     // each interation returns Sub id
