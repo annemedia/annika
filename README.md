@@ -284,72 +284,15 @@ ann.cl.auth.handleAuth(supresswarning = false)
 ```
 To learn how to use the API functions, visit our [online documentation](https://annika.anne.media).
 
-## Collaboration
 
-We are Anne Media - a non-corporate, self-established collective, a rendezvous of loosely coupled professionals who aim to lay the foundation of a new World Wide Web and deploy solutions that enable a world without corporations, borders, or boundaries, a Semantic Web owned by you. In collaboration with Anne Network, we build competitive global solutions and strive to deliver competitive products and services that will disrupt the existing Big Data market.
-
-The Big Data market is monopolized almost exclusively by international corporations serving as trusted third parties who process our data for profit and protect our data in compliance with privacy laws. While the business models result in widespread free-of-charge services, in lieu of service, individuals and organizations relinquish their authority over the information and products produced from the data and give away digital value and rights to profit.
-
-In order to counteract the economic imbalance, with Annika and ANNE protocols, we have the right tools to build a global network where individuals own the content they post on social media or enter into a search engine, where quality data grow in value, empowering the masses to earn a regular profit from everyday online activities. Opportunities arise in a collaborative, permissionless environment where everyone can join in building one database, share data, and use the same data resource, which software builders can query and compete in building interoperable user-end applications. The collective nature of the ecosystem allows cross-app content compatibility, empowering the individual to carry it across the net.
-
-Annika is not a typical open-source project. We offer equity/royalty-based partnership opportunities, invite you to learn more about our mission at [anne.media](https://anne.media), and consider joining us in collaboration laying the foundation of Semantic Web.
-
-## Collaborative Public License
-
-Open-source public licenses are nobly altruistic but also a hindrance to collaboration, as the copyright owners often stand to gain no to little benefit from simply sharing code to the public domain.
-
-In advancement of collaborative spirit, we hereby dedicate any and all copyright interest in Anne Media software to Anne Media Patrons. We make this dedication for the benefit of the public at large and we intend this dedication to be an overt act of dissemination in perpetuity of all present and future rights to Anne Media software.
-
-
-```
-Copyright (c) 2023 Anne Media Patrons
-
-Permission is hereby granted to any Patron obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software 
-without restriction, for any purpose, commercial or non-commercial, including 
-without limitation the rights to use, copy, modify, merge, publish, distribute, 
-sublicense, and/or sell copies of the Software, subject to the following conditions:
-
-0.1) Patron is a fractional copyright owner of the Software who acquired the Patron 
-Rights via the Interchange Offer (the "Offer") at Anne Media.
-
-0.2) The Offer is a current offer addressed to an unlimited number of individuals who 
-can enter into an Agreement on the terms contained in the Offer and Anne Media Terms.
-
-0.3) Patron Rights are granted for a lifetime and subject to the Offer.
-
-1) The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
-
-2) This License does not grant permission to use the trade names, trademarks, service 
-marks, or product names of the Founding Patrons, except as required for reasonable and
-customary use in describing the origin of the Work and reproducing the content of the
-copyright notice file.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-DEALINGS IN THE SOFTWARE.
-
-Everyone is permitted to copy and distribute verbatim or copies of this license document.
-To license your product, the licensor's name must be changed. Verbatim modification is 
-allowed as long as the license name is changed.
-```
-
-Patron is a status that constitutes a contract between you and Anne Media. You can only use Annika if you agree to our Terms. There are three options. You may become Affiliate Patron, Royalty Patron, or Collab Patron.
-
-If you do not want to take part in Anne Media projects, you may use Annika as Affiliated Patron. This status enables you to download and use the Software without limitations under the Collaborative Public Licence, with the only condition that you accredit Anne Media on all websites using Annika via the anchor element tag that must be accessible in a notable place. In other words, easily found by your site visitors.
+If you love Annika, please add our minibanner to your website.
 
 ```
 <a href='https://annika.anne.media' target='_blank'><img src='https://annika.anne.media/img/annikaminibanner.png'/></a>
 ```
  ![alt text](https://annika.anne.media/img/annikaminibanner.png)
 
-## Support our development
-
-In our [Offer](https://anne.media), we put together a range of compelling rewards for participation in Anne Media projects. Alternatively, if this project helps you reduce time to develop and you want to support us with an anonymous donation, you may use one of the below options. Your kindness and backing mean the world to us, and we extend our deepest gratitude in advance.
+## Buy us a bun & coffee
 
 BCH: qrgsxlg8utlvd0mjl289d2nq79jxr0vwgsf3t94nqu
 
@@ -357,7 +300,7 @@ XMR: 89Nz71j5WmCEeWAQEow3SdXzhwfbybctGJ2TGDKYYCwzYahHTtSTFnN9ij6SZD3j5S3rUnHJpUZ
 
 BTC: bc1qke2vwv7hnufcj6rc2yj6p90regsl4gh4pfw3na
 
-ETH: 0x9c7Dc49FACF21F759CfCE624969C3D2c2Ec0985C
+Thank you
 
 ## Social
 
