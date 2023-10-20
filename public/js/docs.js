@@ -385,7 +385,7 @@ ann.docs.annikainfo = async function annikainfo() {
         "<br><br>As long as our Subs produce all DOM objects on page load, all hovertip objects will be given the desired behavior. However, if we were to add a dynamic Sub that does not generate content on page load but on user interaction or add more hovertips within a scope of an ann.cl.onload.customOnloadFunction, to include the additional hovertips objects, we may need to call this function again in our script.</p></div>" +
 
         "<span class='collapsible color-3'>ann.isVisible</span>(elorid)" +
-        "<div class='ccontent mb-10'><p>The function returns true if a DOM object is visible or false if it isn't. The visibility condition is defined by CSS classes 'hide', 'slide-up', 'fadeOut', and CSS property display set to 'none'. If either of these is found against the object, the function will return false. The parameter accepts a DOM object or its ID.</p></div>" +
+        "<div class='ccontent mb-10'><p>The function returns true if a DOM object is visible or false if it isn't. The visibility condition is defined by CSS classes 'hide', 'slideUp', 'fadeOut', and CSS property display set to 'none'. If either of these is found against the object, the function will return false. The parameter accepts a DOM object or its ID.</p></div>" +
 
         "<span class='collapsible color-3'>ann.json2array</span>(json)" +
         "<div class='ccontent mb-10'><p>As the name suggests, the function will convert a JSON object into an array. The parameter accepts a JSON object.</p></div>" +
@@ -608,7 +608,9 @@ async function workshop() {
     let servicecallbacks = [serviceInfo,serviceInfo,serviceInfo,serviceInfo,serviceInfo,serviceInfo]
     
     let c = ann.declareVars(10);
-    c.v3='f-12rem w-89 bblr-unset bblrr-unset',c.v4='service-container sc2 flexitr scrollbar o-y-a',c.v5='singleserviceb+serviceicon',c.v6= 'serviceinner',c.v7='servicetitle',c.v8='w-100 servicebutton',c.v9='annikabutton',c.v10='close'
+    c.v3='f-12rem w-89 bblr-unset bblrr-unset',c.v4='service-container sc2 flexitr scrollbar o-y-a',
+    c.v5='singleserviceb+serviceicon',c.v6= 'serviceinner',c.v7='servicetitle',c.v8='w-100 servicebutton',
+    c.v9='annikabutton',c.v10='close'
     let css = ann.json2array(c);
 
     let cl = ann.declareVars(10);

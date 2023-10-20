@@ -18,3 +18,4 @@ yarn-error.log
 /.vscode
 public/annika.zip
 scripts/publishannika.sh
+annika-demo.code-workspace
