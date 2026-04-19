@@ -6,7 +6,6 @@ ANNIKA core class is the **Subroutine DSL**: a powerful nested array-based synta
 
 Combined with a rich set of supporting classes (`ANNIKA_UTILS`, `ANNIKA_DOM`, `ANNIKA_LANGSET`, `ANNIKA_IDB`, `ANNIKA_VALIDATION`, `ANNIKA_LOADER`, `ANNIKA_PROGRESS`), it forms a complete frontend framework optimized for data-heavy, privacy-focused, and high-interaction applications.
 
-
 > Sentiment: html files be gone.
 
 ---
