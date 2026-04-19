@@ -1,6 +1,6 @@
 # ANNIKA.JS (coming soon)
 
-**A lightweight, high-performance JavaScript framework** that lets you build complex, modular, and responsive single-page applications using pure declarative code — no HTML templates required.
+**A lightweight, high-performance JavaScript framework** that lets you build complex, modular, and responsive single-page applications using pure declarative code - no HTML templates required.
 
 ANNIKA core class is the **Subroutine DSL**: a powerful nested array-based syntax language that lets you generate, style, nest, and wire up portable UI components in a single declarative call.
 
@@ -132,48 +132,48 @@ ANNIKA is built on a rich set of tightly integrated supporting classes that prov
 **namespace: ann.utils**
 
 #### Core Data Helpers
-- `declareVars(count)` — Creates a set of parallel objects (`{ v1: null, v2: null, ... }`) used for clean, indexed data passing into Subroutines.
-- `jsons2arrays()` — Converts multiple JSON objects into parallel arrays (used internally by Subroutine).
-- `json2array()` / `arrayToJson()` — Simple bidirectional conversion between JSON objects and arrays.
-- `deepEqual()` — Deep comparison for arrays and objects.
-- `arraysEqual()` — Fast equality check for arrays.
-- `sortJson()`, `sortObjectByKeys()`, `sortArrayByKeys()`, `orderJsonNumeric()` — Flexible sorting utilities.
+- `declareVars(count)` - Creates a set of parallel objects (`{ v1: null, v2: null, ... }`) used for clean, indexed data passing into Subroutines.
+- `jsons2arrays()` - Converts multiple JSON objects into parallel arrays (used internally by Subroutine).
+- `json2array()` / `arrayToJson()` - Simple bidirectional conversion between JSON objects and arrays.
+- `deepEqual()` - Deep comparison for arrays and objects.
+- `arraysEqual()` - Fast equality check for arrays.
+- `sortJson()`, `sortObjectByKeys()`, `sortArrayByKeys()`, `orderJsonNumeric()` - Flexible sorting utilities.
 
 #### Networking & I/O
-- `fetch()` — Robust fetch wrapper with automatic CSRF token handling, support for JSON, blob, and HTML responses, and proper credentials management.
-- `addStyleSheet()` — Dynamically injects CSS files.
-- `createListener()` — Safe event listener creation with callback support.
+- `fetch()` - Robust fetch wrapper with automatic CSRF token handling, support for JSON, blob, and HTML responses, and proper credentials management.
+- `addStyleSheet()` - Dynamically injects CSS files.
+- `createListener()` - Safe event listener creation with callback support.
 
 #### Cryptography & Security
-- `sha256()` — SHA-256 hashing.
-- `deriveKey()` — PBKDF2 key derivation (used for session encryption).
-- `MD5()`, `crc32()` — Additional hash functions.
-- `randomHex()`, `generateRandomString()` — Secure random value generation.
-- `stringToArrayBuffer()`, `hexToArrayBuffer()`, `arrayBufferToHex()` — Low-level buffer conversions.
+- `sha256()` - SHA-256 hashing.
+- `deriveKey()` - PBKDF2 key derivation (used for session encryption).
+- `MD5()`, `crc32()` - Additional hash functions.
+- `randomHex()`, `generateRandomString()` - Secure random value generation.
+- `stringToArrayBuffer()`, `hexToArrayBuffer()`, `arrayBufferToHex()` - Low-level buffer conversions.
 
 #### Session & Authentication
-- `createSession()`, `checkSession()` — Encrypted session management with PIN-based protection and automatic expiry.
-- `isset()` — Safe null/undefined/empty checks.
+- `createSession()`, `checkSession()` - Encrypted session management with PIN-based protection and automatic expiry.
+- `isset()` - Safe null/undefined/empty checks.
 
 #### Date, String & Formatting
-- `localDateTimeFromEpoch()` — Converts Unix timestamps to localized date/time strings.
-- `minMaxDate()` — Calculates valid date ranges (e.g., for deadlines).
-- `commaNumber()`, `ordinalNumber()`, `percentage()` — Formatting helpers.
-- `getPartString()`, `returnNumber()`, `removeLastCharacter()` — String manipulation utilities.
+- `localDateTimeFromEpoch()` - Converts Unix timestamps to localized date/time strings.
+- `minMaxDate()` - Calculates valid date ranges (e.g., for deadlines).
+- `commaNumber()`, `ordinalNumber()`, `percentage()` - Formatting helpers.
+- `getPartString()`, `returnNumber()`, `removeLastCharacter()` - String manipulation utilities.
 
 #### Async & DOM Helpers
-- `sleep(ms)` — Promise-based delay.
-- `require(selector)` — Waits for a DOM element to appear (MutationObserver-based).
-- `waitForElement()`, `requireObject()`, `evalObject()`, `waitForGlobal()` — Robust waiting utilities.
-- `runLast()` — Executes callbacks only after all Subroutines have completed.
-- `applyResolution()` — Dynamic `--vh` / `--vw` CSS variable setup for mobile responsiveness.
+- `sleep(ms)` - Promise-based delay.
+- `require(selector)` - Waits for a DOM element to appear (MutationObserver-based).
+- `waitForElement()`, `requireObject()`, `evalObject()`, `waitForGlobal()` - Robust waiting utilities.
+- `runLast()` - Executes callbacks only after all Subroutines have completed.
+- `applyResolution()` - Dynamic `--vh` / `--vw` CSS variable setup for mobile responsiveness.
 
 #### Other Utilities
-- `colorLog()` — Colored console output with success/info/warning/error styles.
-- `downloadBase64File()` — Triggers browser downloads from base64 data.
-- `convertToWebP()` — Image compression and format conversion.
-- `imageUrlToBase64()` — Converts remote images to base64.
-- `doesImageExist()` — Promise-based image existence check.
+- `colorLog()` - Colored console output with success/info/warning/error styles.
+- `downloadBase64File()` - Triggers browser downloads from base64 data.
+- `convertToWebP()` - Image compression and format conversion.
+- `imageUrlToBase64()` - Converts remote images to base64.
+- `doesImageExist()` - Promise-based image existence check.
 
 `ANNIKA_UTILS` is injected into the main `ann` instance and is used extensively by Subroutines, Widgets, and higher-level custom classes.
 
@@ -184,36 +184,36 @@ ANNIKA is built on a rich set of tightly integrated supporting classes that prov
 **namespace: ann.dom**
 
 #### Core DOM Utilities
-- `getEl(selector, multi)` — Smart element retrieval supporting IDs, classes, queries, or direct Element/NodeList.
-- `show()` / `hide()` — Toggle visibility with intelligent display handling (including flex, block, etc.).
-- `addClasses()` / `removeClasses()` / `swapClasses()` — Safe, bulk class manipulation.
-- `toggleFade()` / `toggleSlide()` — Smooth fade and slide animations with z-index management.
-- `clear()` / `remove()` — Quick content clearing or element removal.
-- `recalculateOffsetTop()` — Accurate offset calculation accounting for nested parents.
-- `isVisible()` — Checks if an element is currently visible (accounts for classes like `hide`, `fadeOut`, etc.).
+- `getEl(selector, multi)` - Smart element retrieval supporting IDs, classes, queries, or direct Element/NodeList.
+- `show()` / `hide()` - Toggle visibility with intelligent display handling (including flex, block, etc.).
+- `addClasses()` / `removeClasses()` / `swapClasses()` - Safe, bulk class manipulation.
+- `toggleFade()` / `toggleSlide()` - Smooth fade and slide animations with z-index management.
+- `clear()` / `remove()` - Quick content clearing or element removal.
+- `recalculateOffsetTop()` - Accurate offset calculation accounting for nested parents.
+- `isVisible()` - Checks if an element is currently visible (accounts for classes like `hide`, `fadeOut`, etc.).
 
 #### Event & Interaction Helpers
-- `createListener()` (via utils) — Safe event binding with path fallback and callback support.
-- `copyToClipboard()` — Automatic copy-to-clipboard functionality with visual feedback for elements marked `.copycontent`.
-- `makeDraggable()` — Makes elements draggable (with `.draggable` child support).
-- `makeResizable()` — Adds resize handles to floating panels with min/max constraints.
+- `createListener()` (via utils) - Safe event binding with path fallback and callback support.
+- `copyToClipboard()` - Automatic copy-to-clipboard functionality with visual feedback for elements marked `.copycontent`.
+- `makeDraggable()` - Makes elements draggable (with `.draggable` child support).
+- `makeResizable()` - Adds resize handles to floating panels with min/max constraints.
 
 #### Advanced UI Components
-- `modal()` — Highly flexible modal system supporting multiple types (ERROR, WARN, INFO, SUCCESS, PASS, QUESTION), PIN entry, password validation with eye toggle, and custom button text. Returns user response via `modalResponse()`.
-- `rangeSlider()` — Custom range slider with optional linked input, live callbacks, and tooltip.
-- `createCroppie()` — Integrated image cropper with upload, preview, confirm, and discard flow.
-- `collapsible()` — Accordion-style expandable sections with options for first-open and single-active behavior.
-- `hovertips()` / `modaltips()` — Automatic tooltip system for hover and click triggers.
+- `modal()` - Highly flexible modal system supporting multiple types (ERROR, WARN, INFO, SUCCESS, PASS, QUESTION), PIN entry, password validation with eye toggle, and custom button text. Returns user response via `modalResponse()`.
+- `rangeSlider()` - Custom range slider with optional linked input, live callbacks, and tooltip.
+- `createCroppie()` - Integrated image cropper with upload, preview, confirm, and discard flow.
+- `collapsible()` - Accordion-style expandable sections with options for first-open and single-active behavior.
+- `hovertips()` / `modaltips()` - Automatic tooltip system for hover and click triggers.
 
 #### Navigation & Layout
-- `jumpPage()` — Smooth scrolling to indexed sections with offset support.
-- `showImgOverlay()` — Full-screen image/video overlay with close button.
-- `toggleMaximize()` — Maximize/restore floating panels with body overflow handling.
-- `selectItem()` — Programmatic selection for custom dropdowns.
+- `jumpPage()` - Smooth scrolling to indexed sections with offset support.
+- `showImgOverlay()` - Full-screen image/video overlay with close button.
+- `toggleMaximize()` - Maximize/restore floating panels with body overflow handling.
+- `selectItem()` - Programmatic selection for custom dropdowns.
 
 #### Progress & Feedback
 - Integrated with `ANNIKA_PROGRESS` for step-based progress bars and splash screens.
-- `loadSplash()` — Quick loading overlay with cloned loader element.
+- `loadSplash()` - Quick loading overlay with cloned loader element.
 
 `ANNIKA_DOM` works in close coordination with `ANNIKA_UTILS` and is injected into the main `ann` instance. It is heavily used by Subroutines, Widgets, and complex flows like the fundraiser builder (`KUNO_FUNDRAISER`).
 
@@ -227,12 +227,12 @@ Many of its methods are designed to be called from within Subroutine callbacks o
 
 #### Key Features
 
-- **Automatic schema management** — Creates and upgrades object stores based on your configuration.
-- **Smart upsert logic** — When storing arrays of items, it intelligently merges new data with existing records instead of overwriting.
-- **Automatic hashing** — Generates and stores `itemhash` (SHA-256) for change detection and integrity verification.
-- **Flexible retrieval** — Supports `get`, `getAll`, `getAllByIndex`, and filtered lookups.
-- **Persistent storage request** — Automatically asks the browser for persistent storage to prevent data loss.
-- **Safe deletion** — Smart `delete` that works on both full records and individual items inside arrays.
+- **Automatic schema management** - Creates and upgrades object stores based on your configuration.
+- **Smart upsert logic** - When storing arrays of items, it intelligently merges new data with existing records instead of overwriting.
+- **Automatic hashing** - Generates and stores `itemhash` (SHA-256) for change detection and integrity verification.
+- **Flexible retrieval** - Supports `get`, `getAll`, `getAllByIndex`, and filtered lookups.
+- **Persistent storage request** - Automatically asks the browser for persistent storage to prevent data loss.
+- **Safe deletion** - Smart `delete` that works on both full records and individual items inside arrays.
 
 #### Basic Usage
 
@@ -258,14 +258,14 @@ ann.idb = new ANNIKA_IDB({
 ```
 #### Main Methods
 
-- init() — Opens the database and handles upgrades (automatically called).
-- get(storeName, key, value?) — Retrieve a record. If value is provided and the record contains an item array, it returns the matching sub-item.
-- getAll(storeName) — Returns all records in a store.
-- getAllByIndex(storeName, indexName, indexValue) — Query by index (very useful for fast lookups).
-- put(storeName, data) — Smart upsert. If data.item is an array with one object, it merges intelligently with existing data and updates the hash.
-- putAll(storeName, dataArray) — Bulk insert/update of multiple records.
-- delete(storeName, key, value?) — Delete a full record or a specific item inside an array (by id).
-- clear() — Deletes the entire database.
+- init() - Opens the database and handles upgrades (automatically called).
+- get(storeName, key, value?) - Retrieve a record. If value is provided and the record contains an item array, it returns the matching sub-item.
+- getAll(storeName) - Returns all records in a store.
+- getAllByIndex(storeName, indexName, indexValue) - Query by index (very useful for fast lookups).
+- put(storeName, data) - Smart upsert. If data.item is an array with one object, it merges intelligently with existing data and updates the hash.
+- putAll(storeName, dataArray) - Bulk insert/update of multiple records.
+- delete(storeName, key, value?) - Delete a full record or a specific item inside an array (by id).
+- clear() - Deletes the entire database.
 
 ####  Advanced Capabilities
 
@@ -281,10 +281,10 @@ ann.idb = new ANNIKA_IDB({
 
 #### Key Features
 
-- **Mixed loading modes** — Supports both synchronous (blocking) and asynchronous scripts while preserving execution order when required.
-- **Automatic deduplication** — Prevents the same script from being loaded multiple times.
-- **Error handling** — Failed script loads can optionally trigger a page reload to avoid broken states.
-- **Callback support** — Runs a user-defined callback once all scripts in the batch have finished loading.
+- **Mixed loading modes** - Supports both synchronous (blocking) and asynchronous scripts while preserving execution order when required.
+- **Automatic deduplication** - Prevents the same script from being loaded multiple times.
+- **Error handling** - Failed script loads can optionally trigger a page reload to avoid broken states.
+- **Callback support** - Runs a user-defined callback once all scripts in the batch have finished loading.
 
 #### How It Relates to Widgets
 
@@ -374,10 +374,10 @@ The framework ships with powerful templates for complex flows. Language data and
 
 #### Key Features
 
-- **Grouped content organization** — Strings and data are structured by language and logical groups (e.g., form labels, validation messages, modal texts, etc.).
-- **Flexible filtering** — Retrieve items by group, language, or specific ID.
-- **Variable support** — Built-in placeholder replacement for dynamic strings.
-- **Extensible design** — The class is built to be easily customizable, allowing developers to define their own language sets, data sources, and translation strategies.
+- **Grouped content organization** - Strings and data are structured by language and logical groups (e.g., form labels, validation messages, modal texts, etc.).
+- **Flexible filtering** - Retrieve items by group, language, or specific ID.
+- **Variable support** - Built-in placeholder replacement for dynamic strings.
+- **Extensible design** - The class is built to be easily customizable, allowing developers to define their own language sets, data sources, and translation strategies.
 
 #### Basic Usage
 
@@ -390,11 +390,11 @@ ann.LANGSET = ann.lg.getLangSet();
 let title = ann.LANGSET['pirate_ipsum']
 ```
 #### Main Methods
-- ann.lg.getLangSet() — Returns the full language object for the currently active language.
-- ann.lg.data() — Returns the raw dataset containing all grouped content.
-- ann.lg.filter(data, group, lang) — Filters items by group and language.
-- ann.lg.filterLookupsByID(group, lang, id) — Retrieves a specific item by its ID within a group.
-- ann.lg.variableResource(key, variablesarray) — Replaces placeholders in a string with provided values.
+- ann.lg.getLangSet() - Returns the full language object for the currently active language.
+- ann.lg.data() - Returns the raw dataset containing all grouped content.
+- ann.lg.filter(data, group, lang) - Filters items by group and language.
+- ann.lg.filterLookupsByID(group, lang, id) - Retrieves a specific item by its ID within a group.
+- ann.lg.variableResource(key, variablesarray) - Replaces placeholders in a string with provided values.
 
 #### Design Philosophy
 ANNIKA_LANGSET is intentionally kept lightweight and generic. It serves as a foundation for managing all text and lookup data in your application, making it easy to support multiple languages, maintain consistency, and keep copy separate from business logic. It integrates naturally with Subroutines, validation messages, modals, and widgets, helping keep your UI text centralized and maintainable.
@@ -407,12 +407,12 @@ ANNIKA_LANGSET is intentionally kept lightweight and generic. It serves as a fou
 
 #### Key Features
 
-- **Declarative rules** — Attach validation logic to any element via the `validate` attribute.
-- **Rich set of built-in operators** — Supports length checks, word count, date ranges, pattern matching, custom functions, and more.
-- **Content safety tools** — Includes detection for repetitive patterns, excessive symbols, emoji usage, uppercase ratios, and low-information content.
-- **Conditional validation** — Supports rules like `ALLOWEMPTY`, `ALLOWEMPTYIF`, and `IGNOREIFEMPTY` for dynamic field requirements.
-- **Extensible design** — Easy to add custom operators and integrate with external validation logic or AI-based moderation.
-- **User-friendly feedback** — Automatically displays localized error messages via modals when validation fails.
+- **Declarative rules** - Attach validation logic to any element via the `validate` attribute.
+- **Rich set of built-in operators** - Supports length checks, word count, date ranges, pattern matching, custom functions, and more.
+- **Content safety tools** - Includes detection for repetitive patterns, excessive symbols, emoji usage, uppercase ratios, and low-information content.
+- **Conditional validation** - Supports rules like `ALLOWEMPTY`, `ALLOWEMPTYIF`, and `IGNOREIFEMPTY` for dynamic field requirements.
+- **Extensible design** - Easy to add custom operators and integrate with external validation logic or AI-based moderation.
+- **User-friendly feedback** - Automatically displays localized error messages via modals when validation fails.
 
 
 #### Basic Usage
@@ -444,9 +444,9 @@ const title1Valid = await Promise.all([
   }
 ```
 #### Main Methods
-- validateInputs(selector, ...) — Validates all matching elements and returns the collected values (or false on failure).
-- modalPass(passed, validateKey) — Displays an appropriate error modal using the language system.
-- getValidationSet() / getConditions() — Define and manage validation rules and conditions.
+- validateInputs(selector, ...) - Validates all matching elements and returns the collected values (or false on failure).
+- modalPass(passed, validateKey) - Displays an appropriate error modal using the language system.
+- getValidationSet() / getConditions() - Define and manage validation rules and conditions.
 
 #### Design Philosophy
 ANNIKA_VALIDATION is built as a reusable template. It provides a solid foundation for form and input validation while remaining fully customizable. You can extend it with your own operators, integrate third-party libraries, or adapt the error messaging to fit any application's needs.
@@ -743,8 +743,8 @@ public/
 
 1. Create a folder inside `/widgets/` with the exact name of your widget.
 2. Inside that folder, create two files:
-   - `widgetName.js` — contains the widget function (must return a DOM element ID or a Subroutine ID)
-   - `widgetName.css` — contains all styles for the widget
+   - `widgetName.js` - contains the widget function (must return a DOM element ID or a Subroutine ID)
+   - `widgetName.css` - contains all styles for the widget
 3. In the JS file, define the widget under the expected namespace:
 
 ```javascript
@@ -783,7 +783,7 @@ h.v2 = ['userCard', 'statsWidget'];   // Array of widget names
 return ann.Subroutine('dashboard', ['div_y', 'h1', 'widgets'], h, c, cl);
 ```
 
-2. Using widgetLoader() — With Full Nesting Support
+2. Using widgetLoader() - With Full Nesting Support
 
 **Basic single widget:**
 
@@ -800,7 +800,7 @@ ann.widgetLoader([ 'parentWidget', ['childWidget1', 'childWidget2'] ], parentEle
 
 - parentWidget is loaded first.
 - Once the parent is rendered, childWidget1 and childWidget2 are automatically loaded and appended to the parent in one go.
-- No extra calls needed — everything happens in a single widgetLoader invocation.
+- No extra calls needed - everything happens in a single widgetLoader invocation.
 
 **Deeper nesting example:**
 ```javascript
@@ -833,7 +833,7 @@ Example: To force statsWidget to be appended inside a particular div in dashboar
 - Leverage _x and _y inside widgets for responsive layouts.
 - Use the nested array syntax in widgetLoader() when you have clear parent/child relationships.
 
-Widgets are one of ANNIKA’s strongest features — they allow you to build clean, maintainable, and highly reusable interfaces without relying on heavy frameworks or build tools.
+Widgets are one of ANNIKA’s strongest features. They allow you to build clean, maintainable, and highly reusable interfaces without relying on heavy frameworks or build tools.
 
 ---
 Made with	&#10084;&#65039; by ANNE Media.
