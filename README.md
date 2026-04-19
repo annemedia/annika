@@ -660,7 +660,7 @@ async myWizard(id, e, step) {
 
     // Callbacks - Next button recursively calls the same method with step + 1
     cl.v13 = this.stepBack.bind(this);
-    cl.v14 = this.newKuno.bind(this);        // Recursive call
+    cl.v14 = this.myWizard.bind(this);        // Recursive call
 
     pr.v13 = step;
     pr.v14 = step + 1;
@@ -675,7 +675,7 @@ async myWizard(id, e, step) {
     }.bind(this);
 
     let name = (step > 1) 
-        ? ['wizard' + step, 'newkuno1'] 
+        ? ['wizard' + step, 'wizard1'] 
         : ['wizard' + step, '.section-wrap', 'prepend'];
 
     return ann.Subroutine(name, cmds, h, c, cl, pr, at);
@@ -685,7 +685,7 @@ async myWizard(id, e, step) {
 
 - Variable number of parallel objects: let vars = 15; if (step === 1) vars = 17; then declareVars(vars)
 - Dynamic command array construction: The cmds array changes significantly per step (different number of elements, different special commands like countryselect, input_text, etc.)
-- Recursive flow control: The "Next" button callback is bound to this.newKuno.bind(this) so it automatically advances the step
+- Recursive flow control: The "Next" button callback is bound to this.myWizard.bind(this) so it automatically advances the step
 - Step-specific configuration: Different placeholders, validation rules, and onload behavior per step
 - Draft persistence integration: Step 1 automatically recalls saved data from IndexedDB
 
