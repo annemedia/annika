@@ -118,7 +118,7 @@ async myComponent() {
     return ann.Subroutine('myComponent', ['div_y', 'h1', '$1_button', '$1_img'], h, c, cl);
 }
 ```
-#### Example Header / Menu Layout
+#### Example Header / Menu / Body Layout 
 
 ```javascript
 
@@ -127,7 +127,7 @@ async function createMainGUI() {
     let brandp2 = 'COMMAND INTERFACE';
     let logosrc = 'img/annika.svg';
     let menu = ['MENU ITEM 1', 'MENU ITEM 2', 'MENU ITEM 3'];
-    let maininfo = [page1, page2, page3, ann.cl.auth.authModule];
+    let maininfo = [page1, page2, page3]; // pages UDF
 
     // Parallel objects
     let [h, c, cl, pr] = ann.utils.declareVars(11);
