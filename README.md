@@ -156,9 +156,6 @@ async function createMainGUI() {
     // Callback parameters
     pr.v8 = ann.get.menuCallback;
 
-    // Child subroutine (footer)
-    const addfooter = () => { /* your footer subroutine */ };
-
     return await ann.Subroutine('maingui',
         // Command Array
         ['div_y', 'div_y', 'header_x', 'img', '$3_div', 'h1', '$5_h2', '$3_menu_y', '$2_div_y', 'info_y', addfooter],
