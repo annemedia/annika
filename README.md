@@ -12,10 +12,10 @@ Combined with a rich set of supporting classes (`ANNIKA_UTILS`, `ANNIKA_DOM`, `A
 
 ## Why ANNIKA?
 
-- **Ultra-concise declarative DOM generation** — dramatically reduce boilerplate by replacing verbose imperative DOM code with a single declarative Subroutine call.
+- **Ultra-concise declarative DOM generation** - dramatically reduce boilerplate by replacing verbose imperative DOM code with a single declarative Subroutine call.
 - **Fractal rendering** - Fractal rendering with cooperative non-blocking support, automatic handling of lists, tables, JSON objects, grids, and menus.
 - **Built-in modularity** - self-contained widgets (JS + CSS), nested child subroutines, and onload hooks.
-- **Enterprise-grade helpers** — IndexedDB with smart upsert and hashing, advanced validation (including AI toxicity detection), internationalization (i18n), progress UI, script loader, crypto primitives, and more.
+- **Enterprise-grade helpers** - IndexedDB with smart upsert and hashing, advanced validation (including AI toxicity detection), internationalization (i18n), progress UI, script loader, crypto primitives, and more.
 - **Responsive-first** - `_x` / `_y` flex directives + dynamic viewport utilities.
 - **Privacy & security focused** - non-custodial patterns, PBKDF2 key derivation, session management, and strict input validation.
 
@@ -80,20 +80,20 @@ Command Syntax
 
 #### Command Syntax & Rules
 
-- **Command Order Matters** — The order of directives in each command is significant.  
+- **Command Order Matters** - The order of directives in each command is significant.  
   General sequence: `[$N_]` → `element_type` → `[_y|_x]` → `[xN_]` → `[special modifiers]` → `[_@event]`.  
   Correct: `$2_input_text_@change`  
   Incorrect: `input_$2_@change_text`
 
-- **Parent Targeting** — Use `$N_` (1-based) to append an element to a specific previously created parent.  
+- **Parent Targeting** - Use `$N_` (1-based) to append an element to a specific previously created parent.  
   `$0_` targets `document.body`.
 
-- **Event Binding** — Append `_@event` (e.g. `_@click`, `_@change`, `_@keyup`, `_@submit`).  
+- **Event Binding** - Append `_@event` (e.g. `_@click`, `_@change`, `_@keyup`, `_@submit`).  
   If a callback is provided without an explicit event, `_@click` is used by default.
 
-- **Multiplier Syntax** — Prefix with `xN_` to repeat an element multiple times (e.g. `x5_input_text`, `x3_div_y`).
+- **Multiplier Syntax** - Prefix with `xN_` to repeat an element multiple times (e.g. `x5_input_text`, `x3_div_y`).
 
-- **Special Element Handling** — Built-in support for special components including:
+- **Special Element Handling** - Built-in support for special components including:
   - `input_password` (with eye toggle)
   -  Custom searchable selects via `select` and `countryselect`
   - `countries` (radio/checkbox list with flags)
@@ -142,19 +142,19 @@ async function createMainGUI() {
     // Classes / Styling
     c.v1 = 'dyn-h jc-start';
     c.v2 = 'mt-40 jc-start';
-    c.v3 = 'bg-contrast-2 jc-start';
+    c.v3 = 'bg jc-start';
     c.v4 = 'logoimg';
     c.v5 = 'jc-start';
-    c.v6 = 'black f-13rem m-0 Pulstar ls-035rem ml--6px';
-    c.v7 = 'black m-0 AlphaProta fs-06rem pb-5px mt--5px ls-065rem';
-    c.v8 = 'bg-contrast-2 p-10 mt-40 glow-box3 pointer';
+    c.v6 = 'black f13rem m-0';
+    c.v7 = 'black m-0 fs-06rem pb-5x';
+    c.v8 = 'bg-contrast-2 p-10 mt-40 pointer';
     c.v10 = 'dyn-w fadeOut hide z-mid';
 
     // Callbacks
-    cl.v8 = ann.onMenuClick;
+    cl.v8 = ann.onMenuClick; // default menu behavior
 
     // Callback parameters
-    pr.v8 = ann.get.menuCallback;
+    pr.v8 = ann.menuCallback; // custom UDF (must be in ann namespace)
 
     return await ann.Subroutine('maingui',
         // Command Array
@@ -225,12 +225,12 @@ async makeDOM() {
 
 ANNIKA provides two main ways to execute code after a Subroutine has finished rendering:
 
-- **`ann.onload.componentName`** — The primary lifecycle hook.  
+- **`ann.onload.componentName`** - The primary lifecycle hook.  
   Define an `ann.onload` handler **inside the function** that calls `Subroutine()`.  
   The key name in `ann.onload` **must match** the component name you pass as the first argument to `Subroutine()`.  
   This is the recommended place for post-render tasks such as loading widgets, restoring data, or running initialization code.
 
-- **Child Subroutines** — You can pass a function (or another Subroutine call) as the **last item** in the `commands` array.  
+- **Child Subroutines** - You can pass a function (or another Subroutine call) as the **last item** in the `commands` array.  
   These child subroutines are executed automatically after the parent Subroutine completes.
 
 **Example using `ann.onload`:**
@@ -273,6 +273,7 @@ ANNIKA is built on a rich set of tightly integrated supporting classes that prov
 - `deepEqual()` - Deep comparison for arrays and objects.
 - `arraysEqual()` - Fast equality check for arrays.
 - `sortJson()`, `sortObjectByKeys()`, `sortArrayByKeys()`, `orderJsonNumeric()` - Flexible sorting utilities.
+- `createListener()` Safe event binding with path fallback and callback support - each callack returns (id, e, ...params) (params is optional if passed via Sub arrays)
 
 #### Networking & I/O
 - `fetch()` - Robust fetch wrapper with automatic CSRF token handling, support for JSON, blob, and HTML responses, and proper credentials management.
@@ -328,8 +329,7 @@ ANNIKA is built on a rich set of tightly integrated supporting classes that prov
 - `isVisible()` - Checks if an element is currently visible (accounts for classes like `hide`, `fadeOut`, etc.).
 
 #### Event & Interaction Helpers
-- `createListener()` (via utils) - Safe event binding with path fallback and callback support.
-- `copyToClipboard()` - Automatic copy-to-clipboard functionality with visual feedback for elements marked `.copycontent`.
+- `copyToClipboard()` - Automatic copy-to-clipboard functionality with visual feedback for elements marked `.copycontent`. Call after render.
 - `makeDraggable()` - Makes elements draggable (with `.draggable` child support).
 - `makeResizable()` - Adds resize handles to floating panels with min/max constraints.
 
@@ -972,6 +972,60 @@ Example: To force statsWidget to be appended inside a particular div in dashboar
 - Use the nested array syntax in widgetLoader() when you have clear parent/child relationships.
 
 Widgets are one of ANNIKA’s strongest features. They allow you to build clean, maintainable, and highly reusable interfaces without relying on heavy frameworks or build tools.
+
+---
+## Advanced Features (Supplementary)
+
+ANNIKA includes several powerful supporting classes that are not yet part of the public release. These are production-grade components used in real applications including cryptographic identity management, authentication flows, and data wallet systems.
+
+### ANNIKA_ID
+
+`ANNIKA_ID` provides a complete non-custodial authentication and identity system, including:
+
+- Secure Data Key (seed-based) login
+- PIN-protected session management
+- Automatic migration from legacy authentication
+- Data wallet UI with key input, restore from backup, and account recovery
+- Integration with ANNE user accounts and multi-annode support
+- Visual feedback, modals, and smooth UI flows for authentication
+
+This class handles the full auth lifecycle - from key entry and PIN verification to session creation and account restoration while maintaining strong privacy and security principles.
+
+**Note**: `ANNIKA_ID` and related authentication modules are currently **not included** in the public ANNIKA release.
+
+#### Other Supplementary Classes and Libraries
+
+Additional solutions (not yet public) include:
+- cryptographic libraries
+- Enhanced backup & restore system
+- Advanced session and encryption utilities
+- Custom UI components for identity and wallet management
+
+These components are actively used in production applications built with ANNIKA.
+
+Interested in accessing them? Just contact us at [**annetalk.org**](https://annetalk.org/). If you're interested in using the full authentication system (including secure key-based login, data wallet, and identity management), We're happy to provide it to serious developers and projects.
+
+---
+## Collaboration & Supplementary Modules
+
+ANNIKA is a stable but evolving framework. While the core Subroutine DSL and main supporting classes are publicly available, several powerful production modules are currently kept private (including the full `ANNIKA_ID` authentication system, advanced backup & restore tools, legacy migration utilities, and other enterprise-grade components).
+
+If you're building something serious with ANNIKA and would like access to these supplementary modules, we'd love to hear from you.
+
+### How to Collaborate
+
+- **Interested in the full authentication & identity system?**
+- **Need advanced wallet, backup, or migration tools?**
+- **Want to contribute or discuss custom extensions?**
+
+Feel free to reach out at **[annetalk.org](https://annetalk.org)**.
+
+We're especially interested in hearing about:
+- Real-world use cases
+- Feature requests
+- Potential collaborations
+
+Let's build something great together.
 
 ---
 Made with	&#10084;&#65039; by ANNE Media.
