@@ -507,8 +507,9 @@ The framework ships with powerful templates for complex flows. Language data and
 
 `ANNIKA_LANGSET` is the internationalization and localized content management layer of ANNIKA. It provides a centralized system for storing, organizing, filtering, and retrieving translated strings, labels, messages, and lookup data used throughout the application.
 
-**namespace: ann.lg** 
-**namespace: ann.LANGSET**
+**namespaces:** 
+- **ann.lg**
+- **ann.LANGSET**
 
 #### Key Features
 
