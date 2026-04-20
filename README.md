@@ -1,6 +1,6 @@
 # ANNIKA.JS (coming soon)
 
-**A lightweight, high-performance JavaScript framework** that lets you build complex, modular, and responsive single-page applications using pure declarative code - no HTML templates required.
+**A lightweight, high-performance JavaScript framework** that empowers you build complex, modular, and responsive single-page applications using pure declarative code - no HTML templates required.
 
 ANNIKA core class is the **Subroutine DSL**: a powerful nested array-based syntax language that lets you generate, style, nest, and wire up portable UI components in a single declarative call.
 
@@ -12,10 +12,10 @@ Combined with a rich set of supporting classes (`ANNIKA_UTILS`, `ANNIKA_DOM`, `A
 
 ## Why ANNIKA?
 
-- **Ultra-concise declarative DOM generation** - replace 20–100 lines of imperative code with one clean Subroutine call.
-- **Fractal rendering** - automatic handling of lists, tables, JSON objects, grids, and menus.
+- **Ultra-concise declarative DOM generation** — dramatically reduce boilerplate by replacing verbose imperative DOM code with a single declarative Subroutine call.
+- **Fractal rendering** - Fractal rendering with cooperative non-blocking support, automatic handling of lists, tables, JSON objects, grids, and menus.
 - **Built-in modularity** - self-contained widgets (JS + CSS), nested child subroutines, and onload hooks.
-- **Enterprise-grade helpers** - IndexedDB with upsert/hash logic, advanced validation (including AI toxicity detection), i18n, progress UI, script loader, crypto primitives, and more.
+- **Enterprise-grade helpers** — IndexedDB with smart upsert and hashing, advanced validation (including AI toxicity detection), internationalization (i18n), progress UI, script loader, crypto primitives, and more.
 - **Responsive-first** - `_x` / `_y` flex directives + dynamic viewport utilities.
 - **Privacy & security focused** - non-custodial patterns, PBKDF2 key derivation, session management, and strict input validation.
 
@@ -33,7 +33,7 @@ ANNIKA Subroutine is a **higher-level abstraction** than Web Components, offerin
 | Event binding        | Manual listeners                            | `_@click` (and other `_@event`) syntax    |
 | Parallel data        | Manual mapping                              | Built-in parallel arrays (`declareVars`)   |
 | Dynamic lists        | Manual loops                                | Automatic Fractal system                   |
-| Lines of code        | 20–50 per component                         | 1–5 per component                          |
+| Lines of code        | 20–50 per component                         | Usually 3–12 per component                 |
 | Reusability          | Manual composition                          | Built-in widget system + nesting           |
 
 ---
@@ -63,7 +63,7 @@ Command Syntax
 | `_y`                     | Vertical flex container (`flexitc`) |
 | `_x`                     | Horizontal flex container (`flexitr`) |
 | `$N_`                    | Append this element to the N-th command (1-based; `$0_` = `document.body`) |
-| `_@event`                | Bind specific event (`_@click`, `_@submit`, `_@keyup`, `_@mousedown`, etc.). Click is default when a callback is provided |
+| `_@event`                | Bind specific event (`_@click`, `_@submit`, `_@keyup`, `_@mousedown`, etc.) |
 | `xN_`                    | Multiplier – repeat the element N times (`x5_input_text`) |
 | `input_*`                | Special inputs (`input_text`, `input_password` with eye toggle, `input_radio`, `input_checkbox`) |
 | `widgets`                | Load child widgets (widget names go in the matching HTML slot) |
@@ -73,11 +73,34 @@ Command Syntax
 | `croppie`                | Image cropper component |
 | `table`                  | Full HTML table with header/body support |
 | `grid`                   | Grid layout with radio/checkbox support |
-| `menu`                   | Navigation menu with left/right controls |
+| `menu`                   | Navigation menu with hamburger and optional left/right controls |
 | `^_` / `#_`              | Fractal / JSON rendering modifiers |
 | `+multi`                 | Multi-select mode (for selects) |
 
-Example (basic component)
+
+#### Command Syntax & Rules
+
+- **Command Order Matters** — The order of directives in each command is significant.  
+  General sequence: `[$N_]` → `element_type` → `[_y|_x]` → `[xN_]` → `[special modifiers]` → `[_@event]`.  
+  Correct: `$2_input_text_@change`  
+  Incorrect: `input_$2_@change_text`
+
+- **Parent Targeting** — Use `$N_` (1-based) to append an element to a specific previously created parent.  
+  `$0_` targets `document.body`.
+
+- **Event Binding** — Append `_@event` (e.g. `_@click`, `_@change`, `_@keyup`, `_@submit`).  
+  If a callback is provided without an explicit event, `_@click` is used by default.
+
+- **Multiplier Syntax** — Prefix with `xN_` to repeat an element multiple times (e.g. `x5_input_text`, `x3_div_y`).
+
+- **Special Element Handling** — Built-in support for special components including:
+  - `input_password` (with eye toggle)
+  -  Custom searchable selects via `select` and `countryselect`
+  - `countries` (radio/checkbox list with flags)
+  - `slider` and `croppie` image cropper
+  - `table`, `grid`, and `menu` structures
+ 
+#### Example (basic component)
 
 ```javascript
 async myComponent() {
@@ -95,29 +118,144 @@ async myComponent() {
     return ann.Subroutine('myComponent', ['div_y', 'h1', '$1_button', '$1_img'], h, c, cl);
 }
 ```
+#### Example Header / Menu Layout
+
+```javascript
+
+async function createMainGUI() {
+    let brandp1 = 'ANNIKA';
+    let brandp2 = 'COMMAND INTERFACE';
+    let logosrc = 'img/annika.svg';
+    let menu = ['MENU ITEM 1', 'MENU ITEM 2', 'MENU ITEM 3'];
+    let maininfo = [page1, page2, page3, ann.cl.auth.authModule];
+
+    // Parallel objects
+    let [h, c, cl, pr] = ann.utils.declareVars(11);
+
+    // HTML Content
+    h.v4 = logosrc;
+    h.v6 = brandp1;
+    h.v7 = brandp2;
+    h.v8 = menu;
+    h.v10 = maininfo;
+
+    // Classes / Styling
+    c.v1 = 'dyn-h jc-start';
+    c.v2 = 'mt-40 jc-start';
+    c.v3 = 'bg-contrast-2 jc-start';
+    c.v4 = 'logoimg';
+    c.v5 = 'jc-start';
+    c.v6 = 'black f-13rem m-0 Pulstar ls-035rem ml--6px';
+    c.v7 = 'black m-0 AlphaProta fs-06rem pb-5px mt--5px ls-065rem';
+    c.v8 = 'bg-contrast-2 p-10 mt-40 glow-box3 pointer';
+    c.v10 = 'dyn-w fadeOut hide z-mid';
+
+    // Callbacks
+    cl.v8 = ann.onMenuClick;
+
+    // Callback parameters
+    pr.v8 = ann.get.menuCallback;
+
+    // Child subroutine (footer)
+    const addfooter = () => { /* your footer subroutine */ };
+
+    return await ann.Subroutine('maingui',
+        // Command Array
+        ['div_y', 'div_y', 'header_x', 'img', '$3_div', 'h1', '$5_h2', '$3_menu_y', '$2_div_y', 'info_y', addfooter],
+
+        // HTML Content
+        h,
+
+        // Classes
+        c,
+
+        // Callbacks
+        cl,
+
+        // Parameters
+        pr
+    );
+
+    async function addfooter() {
+        // return your footer Sub.
+    }
+}
+```
+
 ### Advanced Subroutine Features
 
 ANNIKA’s Subroutine is far more than a simple DOM builder. It includes powerful built-in capabilities for modularity, dynamic rendering, and lifecycle control.
 
 #### Fractals & Dynamic Rendering
-ANNIKA automatically detects repeated data structures and renders them efficiently using its **cooperatively non-blocking** fractal engine (`_makeFractals`):
+
+ANNIKA automatically detects repeated data structures and renders them efficiently using its fractal system (`_makeFractals`). With added yield points, fractal rendering is cooperatively non-blocking, allowing multiple Subroutines to interleave and run concurrently.
 
 - Multi-dimensional arrays → repeated blocks (`_verticalPrint`)
 - Arrays of objects with flexible key mapping (`_jsonPrint`)
 - Full HTML tables with header/body support (`_tablePrint`)
 - Built-in grids, menus, and automatic radio/checkbox groups
-- Smart depth calculation for nested fractal structuress
+- Smart depth calculation for nested fractal structures
+
+#### Concurrency & Multi-Step Execution
+
+ANNIKA supports running multiple Subroutines concurrently for better performance and responsiveness. Instead of awaiting each step sequentially, you can fire groups of Subroutines in parallel using the built-in `concurrent` helper.
+
+This is particularly useful in complex flows like multi-step wizards, where most steps can safely "race" while maintaining a clean code structure.
+
+**Example of a UDF `makeDOM()`:**
+
+```javascript
+async makeDOM() {
+    ann.dom.remove('mySub1');
+    ann.mem.bypassValidation = true;
+
+    // await for first part to render first
+    const id = await this.mySub1();
+
+    const mySub1 = ann.dom.getEl(id);
+
+    // Let remaining steps run concurrently
+    await ann.concurrent(
+        () => this.mySub2(mySub1),
+        () => this.mySub3(mySub1),
+        () => this.mySub4(mySub1),
+    );
+    ann.mem.bypassValidation = false;
+}
+```
 
 #### Lifecycle Hooks
-- `ann.onload.componentName` - automatically executed after the Subroutine finishes rendering, support for post-render logic
-- Child subroutines (pass a function as the last item in the commands array) run automatically after the parent completes
 
-#### Additional Advanced Capabilities
-- `$N_` parent targeting with flexible append methods (`before`, `after`, `prepend`, `append`)
-- Event binding with explicit `_@event` or automatic click when callback is provided
-- Multiplier syntax (`xN_`) for repeating elements
-- Special element handling (`input_password` with eye toggle, searchable selects, croppie, sliders, countries, etc.)
-- Seamless integration with supporting Classes
+ANNIKA provides two main ways to execute code after a Subroutine has finished rendering:
+
+- **`ann.onload.componentName`** — The primary lifecycle hook.  
+  Define an `ann.onload` handler **inside the function** that calls `Subroutine()`.  
+  The key name in `ann.onload` **must match** the component name you pass as the first argument to `Subroutine()`.  
+  This is the recommended place for post-render tasks such as loading widgets, restoring data, or running initialization code.
+
+- **Child Subroutines** — You can pass a function (or another Subroutine call) as the **last item** in the `commands` array.  
+  These child subroutines are executed automatically after the parent Subroutine completes.
+
+**Example using `ann.onload`:**
+
+```javascript
+async myFoo(id, e, step) {
+    // ... setup code ...
+
+    // Define onload handler inside the same function
+    ann.onload.myfoo = async function() {
+         console.log("onload foo");
+    }.bind(this);
+
+    return ann.Subroutine("myfoo", cmds, h, c, cl, pr, at);
+}
+```
+
+**Example using Child Subroutine:**
+```javascript
+return ann.Subroutine('parentComponent', ['div_y', 'h1', someChildFunction], h, c, cl);
+```
+The child subroutine approach is useful for simple nested logic, while ann.onload is preferred for more complex post-render operations.
 
 ---
 
@@ -281,7 +419,7 @@ ann.idb = new ANNIKA_IDB({
 
 #### Key Features
 
-- **Mixed loading modes** - Supports both synchronous (blocking) and asynchronous scripts while preserving execution order when required.
+- **Mixed loading modes** - Supports both synchronous and asynchronous scripts while preserving execution order when required.
 - **Automatic deduplication** - Prevents the same script from being loaded multiple times.
 - **Error handling** - Failed script loads can optionally trigger a page reload to avoid broken states.
 - **Callback support** - Runs a user-defined callback once all scripts in the batch have finished loading.
@@ -397,11 +535,11 @@ let title = ann.LANGSET['pirate_ipsum']
 - ann.lg.variableResource(key, variablesarray) - Replaces placeholders in a string with provided values.
 
 #### Design Philosophy
-ANNIKA_LANGSET is intentionally kept lightweight and generic. It serves as a foundation for managing all text and lookup data in your application, making it easy to support multiple languages, maintain consistency, and keep copy separate from business logic. It integrates naturally with Subroutines, validation messages, modals, and widgets, helping keep your UI text centralized and maintainable.
+`ANNIKA_LANGSET` is intentionally kept lightweight and generic. It serves as a foundation for managing all text and lookup data in your application, making it easy to support multiple languages, maintain consistency, and keep copy separate from business logic. It integrates naturally with Subroutines, validation messages, modals, and widgets, helping keep your UI text centralized and maintainable.
 
 ### ANNIKA_VALIDATION
 
-`ANNIKA_VALIDATION` is a flexible, declarative validation engine for ANNIKA. It allows developers to define validation rules directly on DOM elements using a simple `validate` attribute, while providing centralized error handling and user feedback.
+`ANNIKA_VALIDATION` is a flexible, declarative validation engine for `ANNIKA`. It allows developers to define validation rules directly on DOM elements using a simple `validate` attribute, while providing centralized error handling and user feedback.
 
 **namespace: ann.val**
 
@@ -614,17 +752,18 @@ your-project/
 
 Note: ANNIKA runs directly in the browser. It requires no bundlers, no npm, and no transpilation. Just a standard web browser supporting async/await, fetch, IndexedDB, and ES6+ features.
 
+
+
 ## Advanced Subroutine Usage: Multi-Step Wizard with Recursive Calls
 
 A powerful pattern in ANNIKA is building **multi-step wizards or complex flows** using a single method that recursively calls `ann.Subroutine` with different command arrays and data depending on the current step.
 
 The following simplified example comes from a real production class.
 
-### Core Pattern: `myWizard(step)`
+### Core Pattern: `myWiz(step)`
 
 ```javascript
-
-async myWizard(id, e, step) {
+async myWiz(id, e, step) {
 
     // Number of parallel objects may be dynamic depending on the step
     let vars = 15;
@@ -660,7 +799,7 @@ async myWizard(id, e, step) {
 
     // Callbacks - Next button recursively calls the same method with step + 1
     cl.v13 = this.stepBack.bind(this);
-    cl.v14 = this.myWizard.bind(this);        // Recursive call
+    cl.v14 = this.myWiz.bind(this);        // Recursive call
 
     pr.v13 = step;
     pr.v14 = step + 1;
@@ -685,19 +824,20 @@ async myWizard(id, e, step) {
 
 - Variable number of parallel objects: let vars = 15; if (step === 1) vars = 17; then declareVars(vars)
 - Dynamic command array construction: The cmds array changes significantly per step (different number of elements, different special commands like countryselect, input_text, etc.)
-- Recursive flow control: The "Next" button callback is bound to this.myWizard.bind(this) so it automatically advances the step
+- Recursive flow control: The "Next" button callback is bound to this.myWiz.bind(this) so it automatically advances the step
 - Step-specific configuration: Different placeholders, validation rules, and onload behavior per step
-- Draft persistence integration: Step 1 automatically recalls saved data from IndexedDB
 
 ```javascript
 async makeDOM() {
-    for (let s = 1; s <= 6; s++) {
-        await this.myWizard(null, null, s, true);   // Build all steps
-    }
-    this.stepSwitch(1);   // Show the first step
+    // make sure step 1 is what user sees
+    await this.myWiz(1);
+    const wizSteps = [
+        ...[2, 3, 4, 5, 6].map(s => () => this.myWiz(s)),
+    ];
+    await ann.concurrent(wizSteps);
 }
 ```
-This pattern lets you create long, stateful, multi-screen wizards while keeping the code clean and highly declarative. Each step reuses the same myWizard method but customizes the Subroutine through dynamic arrays and objects. It is one of the most advanced and practical ways to use ANNIKA Subroutines in production applications.
+This pattern lets you create long, stateful, multi-screen wizards while keeping the code clean and highly declarative. Each step reuses the same myWiz method but customizes the Subroutine through dynamic arrays and objects.
 
 ---
 
