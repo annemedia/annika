@@ -230,7 +230,7 @@ ANNIKA provides two main ways to execute code after a Subroutine has finished re
   The key name in `ann.onload` **must match** the component name you pass as the first argument to `Subroutine()`.  
   This is the recommended place for post-render tasks such as loading widgets, restoring data, or running initialization code.
 
-- **Child Subroutines** - You can pass a function (or another Subroutine call) as the **last item** in the `commands` array.  
+- **`Child Subroutines`** - You can pass a function (or another Subroutine call) as the **last item** in the `commands` array.  
   These child subroutines are executed automatically after the parent Subroutine completes.
 
 **Example using `ann.onload`:**
@@ -254,6 +254,42 @@ return ann.Subroutine('parentComponent', ['div_y', 'h1', someChildFunction], h, 
 ```
 The child subroutine approach is useful for simple nested logic, while ann.onload is preferred for more complex post-render operations.
 
+
+#### Functions & DOM Elements in HTML Array
+
+The HTML array (`h`) is more powerful than it first appears. In addition to strings, you can also pass:
+
+- **Functions** — executed during rendering; the return value becomes the content
+- **DOM Elements** — real elements created manually (or from another Subroutine)
+
+This allows you to mix static content with fully dynamic or pre-built DOM nodes.
+
+**Example:**
+
+```javascript
+let [h, c, cl] = ann.utils.declareVars(5);
+
+// 1. Static string
+h.v1 = "Static Title";
+
+// 2. Function that returns dynamic content
+h.v2 = () => "Current time: " + new Date().toLocaleTimeString();
+
+// 3. Function that returns a real DOM element
+h.v3 = () => {
+    const el = document.createElement('div');
+    el.className = 'dynamic-box';
+    el.innerHTML = '<strong>Created at runtime</strong>';
+    return el;
+};
+
+// 4. Pass an existing DOM element directly
+const myElement = document.createElement('span');
+myElement.textContent = 'Pre-built element';
+h.v4 = myElement;
+
+return ann.Subroutine('demo', ['div_y', 'h1', 'p', 'div', 'div'], h, c, cl);
+```
 ---
 
 ## Supporting Classes
