@@ -86,12 +86,12 @@ Command Syntax
   Incorrect: `input_$2_@change_text`
 
 - **Parent Targeting** - Use `$N_` (1-based) to append an element to a specific previously created parent.  
-  `$0_` targets `document.body`.
+  `$0_` targets `document.body`. Any elements without the $ index specification will be automatically appended to the preceding DOM object.
 
 - **Event Binding** - Append `_@event` (e.g. `_@click`, `_@change`, `_@keyup`, `_@submit`).  
   If a callback is provided without an explicit event, `_@click` is used by default.
 
-- **Multiplier Syntax** - Prefix with `xN_` to repeat an element multiple times (e.g. `x5_input_text`, `x3_div_y`).
+- **Multiplier Syntax** - Prefix with `xN_` to repeat an element multiple times (e.g. `x5_input_text`, `x3_div_y`). Not compatible with $N. Make sure to precede with parent object.
 
 - **Special Element Handling** - Built-in support for special components including:
   - `input_password` (with eye toggle)
