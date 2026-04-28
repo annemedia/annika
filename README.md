@@ -1039,7 +1039,7 @@ Additional solutions (not yet public) include:
 
 These components are actively used in production applications built with ANNIKA.
 
-Interested in accessing them? Just contact us at [**annetalk.org**](https://annetalk.org/). If you're interested in using the full authentication system (including secure key-based login, data wallet, and identity management), We're happy to provide it to serious developers and projects.
+Interested in accessing them? Just contact us at [**annetalk.org**](https://annetalk.org/).
 
 ---
 ## Collaboration & Supplementary Modules
@@ -1049,7 +1049,6 @@ ANNIKA is a stable but evolving framework. While the core Subroutine DSL and mai
 If you're building something serious with ANNIKA and would like access to these supplementary modules, we'd love to hear from you.
 
 ### How to Collaborate
-
 - **Interested in the full authentication & identity system?**
 - **Need advanced wallet, backup, or migration tools?**
 - **Want to contribute or discuss custom extensions?**
